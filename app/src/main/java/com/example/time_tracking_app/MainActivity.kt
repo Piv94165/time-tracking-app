@@ -48,15 +48,17 @@ class MainActivity : ComponentActivity() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DayTracking(date: LocalDate, startTime: LocalTime, endTime: LocalTime, modifier: Modifier = Modifier) {
-    val duration = Duration.between(startTime, endTime)
-    val hours = duration.toHours()
-    val minutes = duration.toMinutes() % 60
-
-    val formattedDuration = "${hours}h${minutes}m"
+fun DayTracking(date: LocalDate, startTime: LocalTime? = null, endTime: LocalTime? = null, modifier: Modifier = Modifier) {
+    var formattedDuration = "-"
+    if (startTime!=null && endTime!=null) {
+        val duration = Duration.between(startTime, endTime)
+        val hours = duration.toHours()
+        val minutes = (duration.toMinutes() % 60)
+        formattedDuration = "${hours}h${minutes}m"
+    }
     Surface (
         color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(12.dp),
+        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp),
         shape = RoundedCornerShape(10),
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
@@ -71,9 +73,9 @@ fun DayTracking(date: LocalDate, startTime: LocalTime, endTime: LocalTime, modif
                 )
             }
             Spacer(modifier = Modifier.height(8.dp)) // Ajouter un espacement vertical
-            Text(text = "Heure d'embauche : $startTime")
+            Text(text = "Heure d'embauche : ${startTime ?: " - "}")
             Spacer(modifier = Modifier.height(8.dp)) // Ajouter un espacement vertical
-            Text(text = "Heure de débauche : $endTime")
+            Text(text = "Heure de débauche : ${endTime ?: " - "}")
         }
     }
 }
@@ -86,6 +88,10 @@ fun GreetingPreview() {
         val currentDate = LocalDate.of(2024, 4, 22)
         val startTime = LocalTime.of(9, 5)
         val endTime = LocalTime.of(17, 34)
-        DayTracking(currentDate, startTime, endTime)
+        Column (modifier = Modifier.padding(8.dp)) {
+            DayTracking(currentDate, startTime, endTime)
+            DayTracking(LocalDate.of(2024, 4, 23), startTime=startTime)
+            DayTracking(LocalDate.of(2024, 4, 24), endTime=endTime)
+        }
     }
 }
