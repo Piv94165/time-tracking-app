@@ -6,22 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.time_tracking_app.ui.theme.TimetrackingappTheme
-import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -39,43 +32,20 @@ class MainActivity : ComponentActivity() {
                     val currentDate = LocalDate.of(2024, 4, 22)
                     val startTime = LocalTime.of(9, 5)
                     val endTime = LocalTime.of(17, 34)
-                    DayTracking(currentDate, startTime, endTime)
+
+                    Column(modifier = Modifier.padding(8.dp)) {
+                        val listOfDays = listOf(
+                            DayTrackingType(currentDate, startTime, endTime),
+                            DayTrackingType(LocalDate.of(2024, 4, 23), startTime = startTime),
+                            DayTrackingType(LocalDate.of(2024, 4, 24), endTime = endTime)
+                        )
+
+                        val listOfDaysInstance = ListOfDays(listOfDays)
+
+                        listOfDaysInstance.Content()
+                    }
                 }
             }
-        }
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun DayTracking(date: LocalDate, startTime: LocalTime? = null, endTime: LocalTime? = null, modifier: Modifier = Modifier) {
-    var formattedDuration = "-"
-    if (startTime!=null && endTime!=null) {
-        val duration = Duration.between(startTime, endTime)
-        val hours = duration.toHours()
-        val minutes = (duration.toMinutes() % 60)
-        formattedDuration = "${hours}h${minutes}m"
-    }
-    Surface (
-        color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp),
-        shape = RoundedCornerShape(10),
-    ) {
-        Column(modifier = Modifier.padding(24.dp)) {
-            Row (modifier = Modifier.fillMaxWidth()){
-                Text(
-                    text = date.toString(),
-                    modifier = Modifier.weight(1f),
-                )
-                Text(
-                    text = "Durée : $formattedDuration",
-                    modifier = Modifier.weight(1f),
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp)) // Ajouter un espacement vertical
-            Text(text = "Heure d'embauche : ${startTime ?: " - "}")
-            Spacer(modifier = Modifier.height(8.dp)) // Ajouter un espacement vertical
-            Text(text = "Heure de débauche : ${endTime ?: " - "}")
         }
     }
 }
@@ -88,10 +58,17 @@ fun GreetingPreview() {
         val currentDate = LocalDate.of(2024, 4, 22)
         val startTime = LocalTime.of(9, 5)
         val endTime = LocalTime.of(17, 34)
-        Column (modifier = Modifier.padding(8.dp)) {
-            DayTracking(currentDate, startTime, endTime)
-            DayTracking(LocalDate.of(2024, 4, 23), startTime=startTime)
-            DayTracking(LocalDate.of(2024, 4, 24), endTime=endTime)
+
+        Column(modifier = Modifier.padding(8.dp)) {
+            val listOfDays = listOf(
+                DayTrackingType(currentDate, startTime, endTime),
+                DayTrackingType(LocalDate.of(2024, 4, 23), startTime = startTime),
+                DayTrackingType(LocalDate.of(2024, 4, 24), endTime = endTime)
+            )
+
+            val listOfDaysInstance = ListOfDays(listOfDays)
+
+            listOfDaysInstance.Content()
         }
     }
 }
