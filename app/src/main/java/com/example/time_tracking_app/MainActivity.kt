@@ -62,8 +62,8 @@ fun GreetingPreview() {
         Column(modifier = Modifier.padding(8.dp)) {
             val listOfDays = listOf(
                 DayTrackingType(currentDate, startTime, endTime),
-                DayTrackingType(LocalDate.of(2024, 4, 23), startTime = startTime),
-                DayTrackingType(LocalDate.of(2024, 4, 24), endTime = endTime)
+                DayTrackingType(LocalDate.of(2024, 5, 7), startTime = startTime),
+                DayTrackingType(LocalDate.of(2024, 5, 10), endTime = endTime)
             )
 
             val listOfDaysInstance = ListOfDays(listOfDays)
