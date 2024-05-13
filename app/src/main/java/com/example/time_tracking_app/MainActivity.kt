@@ -29,15 +29,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val currentDate = LocalDate.of(2024, 4, 22)
+                    val currentDate = LocalDate.of(2024, 5, 13)
                     val startTime = LocalTime.of(9, 5)
                     val endTime = LocalTime.of(17, 34)
 
                     Column(modifier = Modifier.padding(8.dp)) {
                         val listOfDays = listOf(
                             DayTrackingType(currentDate, startTime, endTime),
-                            DayTrackingType(LocalDate.of(2024, 4, 23), startTime = startTime),
-                            DayTrackingType(LocalDate.of(2024, 4, 24), endTime = endTime)
+                            DayTrackingType(LocalDate.of(2024, 1, 13), startTime = startTime),
+                            DayTrackingType(LocalDate.of(2024, 12, 24), endTime = endTime)
                         )
 
                         val listOfDaysInstance = ListOfDays(listOfDays)
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     TimetrackingappTheme {
-        val currentDate = LocalDate.of(2024, 4, 22)
+        val currentDate = LocalDate.of(2024, 5, 13)
         val startTime = LocalTime.of(9, 5)
         val endTime = LocalTime.of(17, 34)
 
@@ -63,7 +63,7 @@ fun GreetingPreview() {
             val listOfDays = listOf(
                 DayTrackingType(currentDate, startTime, endTime),
                 DayTrackingType(LocalDate.of(2024, 5, 7), startTime = startTime),
-                DayTrackingType(LocalDate.of(2024, 5, 10), endTime = endTime)
+                DayTrackingType(LocalDate.of(2024, 9, 10), endTime = endTime)
             )
 
             val listOfDaysInstance = ListOfDays(listOfDays)

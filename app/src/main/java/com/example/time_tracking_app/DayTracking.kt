@@ -5,13 +5,10 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.InlineTextContent
-import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
@@ -22,13 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.Placeholder
-import androidx.compose.ui.text.PlaceholderVerticalAlign
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
@@ -66,44 +57,6 @@ class DayTracking(
             else -> Color(0xFFE5E7E9) // next days
         }
 
-        fun createAnnotatedStringWithIconAndText(
-            icon: ImageVector,
-            text: String,
-        ): Pair<AnnotatedString, Map<String, InlineTextContent>> {
-            val id = "${text}Mod"
-            val annotatedString = buildAnnotatedString {
-                appendInlineContent(id, "[icon]")
-                append("\u2003") // Unicode character for en space
-                append(text)
-            }
-
-            val inlineContent = mapOf(
-                Pair(
-                    id,
-                    InlineTextContent(
-                        Placeholder(
-                            width = 20.sp,
-                            height = 20.sp,
-                            placeholderVerticalAlign = PlaceholderVerticalAlign.Center,
-                        )
-                    ) {
-                        Icon(icon, "", tint = Color.Black, modifier = Modifier.fillMaxSize())
-                    }
-                )
-            )
-
-            return Pair(annotatedString, inlineContent)
-        }
-
-        val (startTimeText2, startTimeContent2) = createAnnotatedStringWithIconAndText(
-            icon = Icons.Default.ArrowForward,
-            text = "Heure d'embauche : ${startTime ?: " - "}",
-        )
-
-        val (endTimeText2, endTimeContent2) = createAnnotatedStringWithIconAndText(
-            icon = Icons.Default.ArrowBack,
-            text = "Heure d'embauche : ${startTime ?: " - "}",
-        )
 
         Surface(
             color = backgroundColor,
@@ -122,18 +75,22 @@ class DayTracking(
                         modifier = Modifier.align(Alignment.CenterVertically),
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp)) // Ajouter un espacement vertical
-                Text(text = startTimeText2,
-                    inlineContent = startTimeContent2,
-                    modifier = Modifier.fillMaxWidth(),
-
+                Spacer(modifier = Modifier.height(8.dp))
+                Row {
+                    Icon(
+                        Icons.Default.ArrowForward,
+                        contentDescription = "forward arrow icon"
                     )
-                Spacer(modifier = Modifier.height(8.dp)) // Ajouter un espacement vertical
-                Text(text = endTimeText2,
-                    inlineContent = endTimeContent2,
-                    modifier = Modifier.fillMaxWidth(),
-
+                    Text(text = "Heure d'embauche : ${startTime ?: " - "}")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "back arrow icon"
                     )
+                    Text(text = "Heure de débauche : ${endTime ?: " - "}")
+                }
             }
         }
     }
