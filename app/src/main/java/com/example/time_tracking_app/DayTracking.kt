@@ -12,10 +12,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,17 +34,20 @@ data class DayTrackingType(
     val modifier: Modifier = Modifier
 )
 
-class DayTracking(
-    private val dayTracking: DayTrackingType
-) {
-    private val date: LocalDate = dayTracking.date
-    private val startTime: LocalTime? = dayTracking.startTime
-    private val endTime: LocalTime? = dayTracking.endTime
-    private val modifier: Modifier = dayTracking.modifier
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
-    fun Content() {
+    fun DayTrackingContent(
+        dayTracking: DayTrackingType,
+        onClick: () -> Unit,
+        date2: MutableState<String>,
+        startTime2: MutableState<String>,
+        endTime2: MutableState<String>,
+    ) {
+         val date: LocalDate = dayTracking.date
+         val startTime: LocalTime? = dayTracking.startTime
+         val endTime: LocalTime? = dayTracking.endTime
+         val modifier: Modifier = dayTracking.modifier
         var formattedDuration = "-"
         if (startTime != null && endTime != null) {
             val duration = Duration.between(startTime, endTime)
@@ -62,6 +68,12 @@ class DayTracking(
             color = backgroundColor,
             modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp),
             shape = RoundedCornerShape(10),
+            onClick = {
+                onClick()
+                date2.value = date.toString()
+                startTime2.value = startTime.toString()
+                endTime2.value = endTime.toString()
+            }
         ) {
             Column(modifier = Modifier.padding(24.dp)) {
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -94,4 +106,3 @@ class DayTracking(
             }
         }
     }
-}
