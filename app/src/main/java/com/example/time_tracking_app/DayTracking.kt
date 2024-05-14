@@ -2,6 +2,7 @@ package com.example.time_tracking_app
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,13 +13,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,12 +48,14 @@ data class DayTrackingType(
          val endTime: LocalTime? = dayTracking.endTime
          val modifier: Modifier = dayTracking.modifier
         var formattedDuration = "-"
+
         if (startTime != null && endTime != null) {
             val duration = Duration.between(startTime, endTime)
             val hours = duration.toHours()
             val minutes = (duration.toMinutes() % 60)
             formattedDuration = "${hours}h${minutes}"
         }
+
         val today = LocalDate.now()
 
         val backgroundColor = when {
@@ -75,19 +76,23 @@ data class DayTrackingType(
                 endTime2.value = endTime.toString()
             }
         ) {
-            Column(modifier = Modifier.padding(24.dp)) {
-                Row(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(
                         text = date.toString(),
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier,
                     )
-                    Spacer(modifier = Modifier.weight(1f))
                     Text(
                         text = "Durée : $formattedDuration",
                         modifier = Modifier.align(Alignment.CenterVertically),
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
                 Row {
                     Icon(
                         Icons.Default.ArrowForward,
@@ -95,7 +100,6 @@ data class DayTrackingType(
                     )
                     Text(text = "Heure d'embauche : ${startTime ?: " - "}")
                 }
-                Spacer(modifier = Modifier.height(8.dp))
                 Row {
                     Icon(
                         Icons.Default.ArrowBack,

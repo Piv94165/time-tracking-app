@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,14 +20,10 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,34 +54,29 @@ class MainActivity : ComponentActivity() {
                         dragHandle = { BottomSheetDefaults.DragHandle() },
                     ) {
                         Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(20.dp),
+                            modifier = Modifier.fillMaxWidth().padding(20.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
                         ) {
                             Text(text = "Horaires du ${editDate.value}")
-                            Spacer(modifier = Modifier.height(8.dp))
                             OutlinedTextField(
                                 value = if (startTimeInput.value=="null") "" else startTimeInput.value,
                                 onValueChange = { startTimeInput.value = it },
                                 label = { Text("Heure d'embauche")},
                                 singleLine = true,
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
                             OutlinedTextField(
                                 value = if (endTimeInput.value=="null") "" else endTimeInput.value,
                                 onValueChange = { endTimeInput.value = it },
                                 label = { Text("Heure de débauche")},
                                 singleLine = true,
                                 )
-                            Spacer(modifier = Modifier.height(8.dp))
                             Button(
                                 modifier = Modifier.padding(bottom = 4.dp),
                                 onClick = { timeEditSheetIsShown.value = false }
                             ) {
                                 Text("Valider les horaires")
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
                         }
 
                     }
