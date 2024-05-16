@@ -6,13 +6,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,18 +23,25 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.room.Room
+import com.example.time_tracking_app.database.AppDatabase
+import com.example.time_tracking_app.database.Day
+import com.example.time_tracking_app.database.DayDao
 import com.example.time_tracking_app.ui.theme.TimetrackingappTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("MutableCollectionMutableState")
@@ -47,25 +51,58 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TimetrackingappTheme {
+                val convertors = Convertors()
+
+                val db = Room
+                    .databaseBuilder(
+                        applicationContext,
+                        AppDatabase::class.java, "days-database"
+                    )
+                    //.createFromAsset("")
+                    .build()
+
+                val dayDao = db.dayDao()
 
                 val currentDate = LocalDate.now()
                 val startTime = LocalTime.of(9, 5)
                 val endTime = LocalTime.of(17, 34)
-                val monday = DayTrackingType(currentDate.minusDays(2), startTime, endTime)
-                val tuesday = DayTrackingType(currentDate.minusDays(1), startTime, endTime)
-                val wednesday = DayTrackingType(currentDate, startTime)
-                val thursday = DayTrackingType(currentDate.plusDays(1))
-                val friday = DayTrackingType(currentDate.plusDays(2))
+
+                val monday =
+                    Day(date = currentDate.minusDays(2), startTime = startTime, endTime = endTime)
+                val tuesday = Day(date = currentDate.minusDays(1), startTime, endTime)
+                val wednesday = Day(date = currentDate, startTime = startTime)
+                val thursday = Day(date = currentDate.plusDays(1))
+                val friday = Day(date = currentDate.plusDays(2))
+                val initialListOfDays = listOf(monday, tuesday, wednesday, thursday, friday)
+
+                val coroutineScope = rememberCoroutineScope()
+                val listOfDays = dayDao.getAll().collectAsState(initial = emptyList())
+
+                suspend fun insertFirstData(): Unit {
+                    initialListOfDays.forEach { day -> dayDao.insertOrUpdateDate(day) }
+                }
+
+                LaunchedEffect(key1 = Unit) {
+                    coroutineScope.launch(Dispatchers.IO) {
+                        insertFirstData()
+                    }
+                }
 
                 val dayClicked = remember {
-                    mutableStateOf<DayTrackingType?>(null)
+                    mutableStateOf<Day?>(null)
                 }
 
-                val listOfDays = remember {
-                    mutableStateListOf(
-                            monday, tuesday, wednesday, thursday, friday,
-                    )
+                suspend fun insertNewDay() {
+                    dayClicked.value?.let { dayDao.insertOrUpdateDate(it) }
                 }
+
+
+                LaunchedEffect(key1 = Unit) {
+                    coroutineScope.launch(Dispatchers.IO) {
+                        insertNewDay()
+                    }
+                }
+
 
                 val timeEditSheetIsShown = remember { mutableStateOf(false) }
 
@@ -85,12 +122,14 @@ class MainActivity : ComponentActivity() {
                             verticalArrangement = Arrangement.spacedBy(16.dp),
                         ) {
                             val writtenStartDate = remember {
-                                mutableStateOf(if (dayClicked.value?.startTime == null) "" else dayClicked.value?.startTime.toString())
+                                mutableStateOf(if (dayClicked.value?.startTime == null) "" else convertors.convertTimeToString(
+                                    dayClicked.value?.startTime!!
+                                ))
                             }
                             val writtenEndDate = remember {
                                 mutableStateOf(
-                                    if (dayClicked.value?.endTime == null) "" else dayClicked.value?.endTime?.toString()
-                                        .orEmpty()
+                                    if (dayClicked.value?.endTime == null) "" else convertors.convertTimeToString(
+                                        dayClicked.value?.endTime!!)
                                 )
                             }
                             Text(text = "Horaires du ${dayClicked.value?.date}")
@@ -110,17 +149,17 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.padding(bottom = 4.dp),
                                 onClick = {
                                     timeEditSheetIsShown.value = false
-                                    //val timeFormatter = DateTimeFormatter.ofPattern("hh:mm")
-                                    dayClicked.value?.startTime =
-                                        LocalTime.parse(writtenStartDate.value)
-                                    dayClicked.value?.endTime =
-                                        LocalTime.parse(writtenEndDate.value)
-                                    val index =
-                                        listOfDays.indexOfFirst { it.date == dayClicked.value?.date }
+                                    if (writtenStartDate.value !== ""){
+                                        dayClicked.value?.startTime =
+                                            convertors.convertStringToTime(writtenStartDate.value)
+                                    }
+                                    if (writtenEndDate.value !== "") {
+                                        dayClicked.value?.endTime =
+                                            convertors.convertStringToTime(writtenEndDate.value)
+                                    }
 
-                                    dayClicked.value?.also { day ->
-                                        listOfDays.removeAt(index)
-                                        listOfDays.add(index,day)
+                                    coroutineScope.launch(Dispatchers.IO) {
+                                        insertNewDay()
                                     }
 
                                 }
@@ -141,17 +180,21 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(8.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        items(listOfDays) { day ->
-                            val dayTrackingType = DayTrackingType(
-                                day.date,
-                                day.startTime,
-                                day.endTime
-                            )
-                            DayTrackingContent(
-                                dayTrackingType
-                            ) { date, startTime, endTime ->
-                                timeEditSheetIsShown.value = true
-                                dayClicked.value = dayTrackingType
+                        items(listOfDays.value) { day ->
+                            val dayTrackingType = day?.date?.let {
+                                Day(
+                                    it,
+                                    day.startTime,
+                                    day.endTime
+                                )
+                            }
+                            if (dayTrackingType != null) {
+                                DayTrackingContent(
+                                    dayTrackingType
+                                ) { //date, startTime, endTime ->
+                                    timeEditSheetIsShown.value = true
+                                    dayClicked.value = dayTrackingType
+                                }
                             }
                         }
                     }
