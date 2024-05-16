@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.time_tracking_app.database.Day
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
@@ -39,8 +40,8 @@ data class DayTrackingType(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DayTrackingContent(
-    dayTracking: DayTrackingType,
-    onClick: (String, String, String) -> Unit,
+    dayTracking: Day,
+    onClick: () -> Unit, //String, String, String
 ) {
     val date: LocalDate = dayTracking.date
     val startTime: LocalTime? = dayTracking.startTime
@@ -62,17 +63,21 @@ fun DayTrackingContent(
         else -> Color(0xFFE5E7E9) // next days
     }
 
+    val convertors = Convertors()
+
     Column(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .background(color = backgroundColor, shape = RoundedCornerShape(10))
             .clickable {
-                val startTimeString = if (startTime!= null)  startTime.format(DateTimeFormatter.ofPattern("hh:mm")) else "-"
-                val endTimeString = if (endTime!= null)  endTime.format(DateTimeFormatter.ofPattern("hh:mm")) else "-"
+                val startTimeString =
+                    if (startTime != null) convertors.convertTimeToString(startTime)  else "-"
+                val endTimeString =
+                    if (endTime != null) convertors.convertTimeToString(endTime) else "-"
                 onClick(
-                    date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                    startTimeString,
-                    endTimeString
+                    //date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                    //startTimeString,
+                    //endTimeString
                 )
             }
             .padding(16.dp),
@@ -83,7 +88,7 @@ fun DayTrackingContent(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                text = date.toString(),
+                text = convertors.convertDateToString(date),
                 modifier = Modifier,
             )
             Text(
@@ -96,14 +101,14 @@ fun DayTrackingContent(
                 Icons.Default.ArrowForward,
                 contentDescription = "forward arrow icon"
             )
-            Text(text = "Heure d'embauche : ${startTime ?: " - "}")
+            Text(text = "Heure d'embauche : ${if (startTime!==null) convertors.convertTimeToString(startTime) else " - "}")
         }
         Row {
             Icon(
                 Icons.Default.ArrowBack,
                 contentDescription = "back arrow icon"
             )
-            Text(text = "Heure de débauche : ${endTime ?: " - "}")
+            Text(text = "Heure de débauche : ${if (endTime!==null) convertors.convertTimeToString(endTime) else " - "}")
         }
     }
 }
