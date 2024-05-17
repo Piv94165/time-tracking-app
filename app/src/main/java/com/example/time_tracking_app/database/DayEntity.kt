@@ -7,11 +7,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 
 @Entity
-data class Day (
+data class DayEntity (
     @PrimaryKey(autoGenerate = true) val uid: Int,
     @ColumnInfo(name = "date") val date:LocalDate,
     @ColumnInfo(name = "start_time") var startTime:LocalTime?,
@@ -21,5 +22,23 @@ data class Day (
     @RequiresApi(Build.VERSION_CODES.O)
     @Ignore
     constructor(date: LocalDate, startTime: LocalTime? = null, endTime: LocalTime? = null) :
-            this ("${date.year}${date.monthValue}${date.dayOfMonth}".toInt(), date, startTime, endTime)
+            this(
+                "${date.year}${date.monthValue}${date.dayOfMonth}".toInt(),
+                date,
+                startTime,
+                endTime
+            )
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun duration(): String {
+        var formattedDuration = "-"
+
+        if (startTime != null && endTime != null) {
+            val duration = Duration.between(startTime, endTime)
+            val hours = duration.toHours()
+            val minutes = (duration.toMinutes() % 60)
+            formattedDuration = "${hours}h${minutes}"
+        }
+        return formattedDuration
+    }
 }
