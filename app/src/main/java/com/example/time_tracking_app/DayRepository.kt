@@ -1,20 +1,22 @@
 package com.example.time_tracking_app
 
+import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.time_tracking_app.database.DayDao
 import com.example.time_tracking_app.database.DayEntity
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
+import javax.inject.Inject
 
-class DayRepository(
+class DayRepository @Inject constructor(
     private val dao: DayDao,
 ) {
-
     @RequiresApi(Build.VERSION_CODES.O)
 
     fun insertFirstDays() {

@@ -20,39 +20,37 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
 import com.example.time_tracking_app.bottomNavigation.NavigationItem
 import com.example.time_tracking_app.composables.EditDay
 import com.example.time_tracking_app.composables.WeekPage
-import com.example.time_tracking_app.database.AppDatabase
 import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.ui.theme.TimetrackingappTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalTime
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject lateinit var mainActivityViewModel: MainActivityViewModel
     @SuppressLint("MutableCollectionMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /*
         val db = Database.getInstance(applicationContext)
         val dao = db.dayDao()
         val repository = DayRepository(dao)
         val useCase = UseCase(repository)
         val mainActivityViewModel = MainActivityViewModel(useCase)
+         */
         mainActivityViewModel.insertFirstDays()
 
         setContent {

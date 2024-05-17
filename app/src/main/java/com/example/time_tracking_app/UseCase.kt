@@ -4,8 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.time_tracking_app.database.DayEntity
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class UseCase(
+class UseCase @Inject constructor(
     private val repository: DayRepository,
 ) {
 

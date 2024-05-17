@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.devtools.ksp") version "1.9.24-1.0.20"
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -80,9 +81,13 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
+    implementation("com.google.dagger:hilt-android:2.44")
+    ksp("com.google.dagger:hilt-android-compiler:2.44")
+
 }
 
 ksp {
     arg("room.schemaLocation","$projectDir/schemas")
     arg("room.incremental","true")
+    arg("correctErrorTypes","true")
 }

@@ -5,6 +5,11 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.time_tracking_app.DatabaseModule
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -25,4 +30,11 @@ interface DayDao {
 
     @Delete
     suspend fun delete(dayEntity: DayEntity)
+}
+
+@Module
+@InstallIn(ActivityComponent::class)
+abstract class DayDaoModule {
+    @Binds
+    abstract fun bindDayDao(db: DatabaseModule): DayDao
 }
