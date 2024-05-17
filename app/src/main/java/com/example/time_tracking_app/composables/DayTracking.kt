@@ -1,4 +1,4 @@
-package com.example.time_tracking_app
+package com.example.time_tracking_app.composables
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -7,28 +7,23 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.time_tracking_app.database.Day
-import java.time.Duration
+import com.example.time_tracking_app.Convertors
+import com.example.time_tracking_app.database.DayEntity
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 data class DayTrackingType(
     val date: LocalDate,
@@ -40,20 +35,12 @@ data class DayTrackingType(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DayTrackingContent(
-    dayTracking: Day,
+    dayEntityTracking: DayEntity,
     onClick: () -> Unit, //String, String, String
 ) {
-    val date: LocalDate = dayTracking.date
-    val startTime: LocalTime? = dayTracking.startTime
-    val endTime: LocalTime? = dayTracking.endTime
-    var formattedDuration = "-"
-
-    if (startTime != null && endTime != null) {
-        val duration = Duration.between(startTime, endTime)
-        val hours = duration.toHours()
-        val minutes = (duration.toMinutes() % 60)
-        formattedDuration = "${hours}h${minutes}"
-    }
+    val date: LocalDate = dayEntityTracking.date
+    val startTime: LocalTime? = dayEntityTracking.startTime
+    val endTime: LocalTime? = dayEntityTracking.endTime
 
     val today = LocalDate.now()
 
@@ -70,15 +57,7 @@ fun DayTrackingContent(
             .padding(horizontal = 24.dp)
             .background(color = backgroundColor, shape = RoundedCornerShape(10))
             .clickable {
-                val startTimeString =
-                    if (startTime != null) convertors.convertTimeToString(startTime)  else "-"
-                val endTimeString =
-                    if (endTime != null) convertors.convertTimeToString(endTime) else "-"
-                onClick(
-                    //date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                    //startTimeString,
-                    //endTimeString
-                )
+                onClick()
             }
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -92,7 +71,7 @@ fun DayTrackingContent(
                 modifier = Modifier,
             )
             Text(
-                text = "Durée : $formattedDuration",
+                text = "Durée : ${dayEntityTracking.duration()}",
                 modifier = Modifier.align(Alignment.CenterVertically),
             )
         }

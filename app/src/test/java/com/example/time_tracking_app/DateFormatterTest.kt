@@ -1,6 +1,6 @@
 package com.example.time_tracking_app
 
-import androidx.compose.runtime.Composable
+import com.example.time_tracking_app.composables.DayTrackingType
 import org.junit.Assert
 import org.junit.Test
 import java.time.LocalDate
@@ -26,7 +26,7 @@ class DateFormatterTest {
         val thursday = DayTrackingType(currentDate.plusDays(1))
         val friday = DayTrackingType(currentDate.plusDays(2))
 
-        val dayClicked :DayTrackingType = tuesday
+        val dayClicked : DayTrackingType = tuesday
         dayClicked.startTime = LocalTime.of(9,45)
 
         val listOfDays = mutableListOf(
