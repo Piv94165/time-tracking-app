@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -42,31 +41,24 @@ fun EditDay(
         val writtenStartDate = remember {
             mutableStateOf(
                 if (dayClicked?.startTime == null) "" else convertors.convertTimeToString(
-                    dayClicked?.startTime!!
+                    dayClicked.startTime!!
                 )
             )
         }
         val writtenEndDate = remember {
             mutableStateOf(
                 if (dayClicked?.endTime == null) "" else convertors.convertTimeToString(
-                    dayClicked?.endTime!!
+                    dayClicked.endTime!!
                 )
             )
         }
+        val isError = remember {
+            mutableStateOf(false)
+        }
         Text(text = "Horaires du ${dayClicked?.date}")
-        OutlinedTextField(
-            value = writtenStartDate.value,
-            onValueChange = { writtenStartDate.value = it },
-            label = { Text("Heure d'embauche") },
-            singleLine = true,
-        )
-        OutlinedTextField(
-            value = writtenEndDate.value,
-            onValueChange = { writtenEndDate.value = it },
-            label = { Text("Heure de débauche") },
-            singleLine = true,
-        )
-        Button(modifier = Modifier.padding(bottom = 4.dp), onClick = {
+        TimeInput(writtenTime = writtenStartDate, label = "Heure d'embauche", isError)
+        TimeInput(writtenTime = writtenEndDate, label = "Heure de débauche", isError)
+        Button(modifier = Modifier.padding(bottom = 4.dp), enabled = !isError.value, onClick = {
             timeEditSheetIsShown.value = false
             if (writtenStartDate.value !== "") {
                 dayClicked?.startTime =
