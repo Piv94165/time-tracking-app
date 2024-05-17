@@ -11,11 +11,11 @@ class UseCase @Inject constructor(
 ) {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun initializeUserData() {
+    suspend fun initializeUserData() {
         repository.insertFirstDays()
     }
 
-    fun addOrUpdateANewDayLocally(day: DayEntity) {
+    suspend fun addOrUpdateANewDayLocally(day: DayEntity) {
         repository.insertANewDay(day)
     }
 

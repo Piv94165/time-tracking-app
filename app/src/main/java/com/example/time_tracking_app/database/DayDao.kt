@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.example.time_tracking_app.DatabaseModule
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,9 @@ import kotlinx.coroutines.flow.Flow
 interface DayDao {
     @Query("SELECT * FROM DayEntity")
     fun getAll(): Flow<List<DayEntity>>
+
+    @Query("SELECT * FROM DayEntity")
+    fun getAllWithoutFlow(): List<DayEntity>
 
     @Query("SELECT * FROM DayEntity WHERE date IN (:dayDates)")
     fun loadAllByDates(dayDates: Array<String>): Flow<List<DayEntity>>
@@ -30,11 +34,4 @@ interface DayDao {
 
     @Delete
     suspend fun delete(dayEntity: DayEntity)
-}
-
-@Module
-@InstallIn(ActivityComponent::class)
-abstract class DayDaoModule {
-    @Binds
-    abstract fun bindDayDao(db: DatabaseModule): DayDao
 }

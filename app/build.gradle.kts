@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("com.google.devtools.ksp") version "1.9.24-1.0.20"
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
@@ -72,8 +72,8 @@ dependencies {
     val roomVersion = "2.6.1"
 
     implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
+    // annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    // annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 
@@ -81,8 +81,12 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
-    implementation("com.google.dagger:hilt-android:2.44")
-    ksp("com.google.dagger:hilt-android-compiler:2.44")
+    // Hilt
+    // implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.google.dagger.hilt.android)
+    ksp(libs.google.dagger.hilt.compiler)
+    androidTestImplementation(libs.google.dagger.hilt.android.testing)
+    kspAndroidTest(libs.google.dagger.hilt.android.testing)
 
 }
 

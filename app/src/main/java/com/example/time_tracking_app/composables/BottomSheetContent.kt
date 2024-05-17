@@ -52,13 +52,16 @@ fun EditDay(
                 )
             )
         }
-        val isError = remember {
+        val isErrorForStartTime = remember {
+            mutableStateOf(false)
+        }
+        val isErrorForEndTime = remember {
             mutableStateOf(false)
         }
         Text(text = "Horaires du ${dayClicked?.date}")
-        TimeInput(writtenTime = writtenStartDate, label = "Heure d'embauche", isError)
-        TimeInput(writtenTime = writtenEndDate, label = "Heure de débauche", isError)
-        Button(modifier = Modifier.padding(bottom = 4.dp), enabled = !isError.value, onClick = {
+        TimeInput(writtenTime = writtenStartDate, label = "Heure d'embauche", isErrorForStartTime)
+        TimeInput(writtenTime = writtenEndDate, label = "Heure de débauche", isErrorForEndTime)
+        Button(modifier = Modifier.padding(bottom = 4.dp), enabled = !isErrorForStartTime.value&&!isErrorForEndTime.value, onClick = {
             timeEditSheetIsShown.value = false
             if (writtenStartDate.value !== "") {
                 dayClicked?.startTime =
