@@ -3,12 +3,9 @@ package com.example.time_tracking_app
 import android.content.Context
 import androidx.room.Room
 import com.example.time_tracking_app.database.AppDatabase
-import com.example.time_tracking_app.database.DayDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -18,7 +15,7 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Singleton
     @Provides
-    fun getInstance(
+    fun providesRoomDatabase(
         @ApplicationContext context: Context
     ): AppDatabase {
         return Room.databaseBuilder(
@@ -28,6 +25,9 @@ object DatabaseModule {
 
     @Provides
     fun providesDayDao(db: AppDatabase)=db.dayDao()
+
+    @Provides
+    fun providesPublicHolidaysDao(db: AppDatabase) = db.PublicHolidayDao()
 }
 
 

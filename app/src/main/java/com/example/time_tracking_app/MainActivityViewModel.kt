@@ -1,11 +1,13 @@
 package com.example.time_tracking_app
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.time_tracking_app.database.DayEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -24,6 +26,7 @@ class MainActivityViewModel @Inject constructor(
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun insertANewDay(
         newDay: DayEntity
     ) {
@@ -33,10 +36,19 @@ class MainActivityViewModel @Inject constructor(
 
     }
 
-    fun getAllDays(): Flow<List<DayEntity>> {
-        return useCase.getAllUserDays()
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getPublicHolidays() {
+            try {
+                val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
+                    throwable.printStackTrace()
+                }
+                viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+                    useCase.getPublicHolidaysFromDb()
+                }
+            }
+            catch (e: Exception) {
+                Log.d("ERROR",e.message.orEmpty())
+            }
     }
-
-
 
 }

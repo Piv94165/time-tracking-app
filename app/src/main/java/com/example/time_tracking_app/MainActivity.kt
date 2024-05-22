@@ -22,65 +22,35 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.time_tracking_app.bottomNavigation.NavigationItem
 import com.example.time_tracking_app.composables.EditDay
-import com.example.time_tracking_app.composables.WeekPage
+import com.example.time_tracking_app.composables.weekPage.WeekPage
+import com.example.time_tracking_app.composables.weekPage.WeekPageViewModel
 import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.ui.theme.TimetrackingappTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
     @SuppressLint("MutableCollectionMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
-    @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*
-        val db = Database.getInstance(applicationContext)
-        val dao = db.dayDao()
-        val repository = DayRepository(dao)
-        val useCase = UseCase(repository)
-        val mainActivityViewModel = MainActivityViewModel(useCase)
-         */
+
         mainActivityViewModel.insertFirstDays()
 
         setContent {
             TimetrackingappTheme {
-                val listOfDays = mainActivityViewModel.getAllDays().collectAsState(initial = emptyList())
-                val dayEntityClicked = remember {
-                    mutableStateOf<DayEntity?>(null)
-                }
-                val timeEditSheetIsShown = remember { mutableStateOf(false) }
-
-                val modalBottomSheetState = rememberModalBottomSheetState()
-
-                if (timeEditSheetIsShown.value) {
-                    ModalBottomSheet(
-                        onDismissRequest = { timeEditSheetIsShown.value = false },
-                        sheetState = modalBottomSheetState,
-                        dragHandle = { BottomSheetDefaults.DragHandle() },
-                    ) {
-                        EditDay(
-                            dayClicked = dayEntityClicked.value,
-                            timeEditSheetIsShown = timeEditSheetIsShown,
-                            insertNewDay = { day ->
-                                Log.d("", "Hello from insert new day $day")
-                                mainActivityViewModel.insertANewDay(newDay = day)
-                            },
-                        )
-                    }
-                }
-
                 val navController = rememberNavController()
 
                 val itemsList = listOf(
@@ -124,10 +94,11 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("today") { }
                         composable("week") {
+                            val viewModel = hiltViewModel<WeekPageViewModel>()
+                            val days by viewModel.allDays.collectAsState(initial = emptyList())
                             WeekPage(
-                                listOfDays = listOfDays,
-                                timeEditSheetIsShown = timeEditSheetIsShown,
-                                dayEntityClicked = dayEntityClicked,
+                                allDays = days,
+                                onClickDay = { day -> viewModel.editDay(day) },
                             )
                         }
                     }

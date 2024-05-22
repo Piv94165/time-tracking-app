@@ -29,6 +29,11 @@ interface DayDao {
             " LIMIT 1")
     fun findByDate(date: String): Flow<DayEntity>
 
+    @Query(
+        "SELECT * FROM DayEntity ORDER BY date DESC LIMIT 1"
+    )
+    fun findLastDate(): DayEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdateDate(vararg dayEntity: DayEntity)
 

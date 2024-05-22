@@ -1,21 +1,21 @@
 package com.example.time_tracking_app
 
-import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.time_tracking_app.database.DayDao
 import com.example.time_tracking_app.database.DayEntity
-import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.example.time_tracking_app.database.PublicHolidayDao
+import com.example.time_tracking_app.database.PublicHolidayEntity
+import com.example.time_tracking_app.network.PublicHolidaysService
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
 class DayRepository @Inject constructor(
-    private val dao: DayDao,
+    private val dayDao: DayDao,
+    private val publicHolidayDao: PublicHolidayDao,
+    private val publicHolidayService: PublicHolidaysService,
 ) {
     @RequiresApi(Build.VERSION_CODES.O)
 
@@ -35,22 +35,39 @@ class DayRepository @Inject constructor(
             val friday = DayEntity(date = currentDate.plusDays(2))
             val saturday = DayEntity(date = currentDate.plusDays(3))
             val initialListOfDays = listOf(monday, tuesday, wednesday, thursday, friday, saturday)
-
-            initialListOfDays.forEach { day -> insertANewDay(day) }
+            val publicHolidays =
+                getPublicHolidayFromDb().filter { it -> it.date.year == currentDate.year }
+            initialListOfDays.forEach { day ->
+                if (publicHolidays.any {
+                        it.date == day.date
+                    }) day.isPublicHoliday = true
+                insertANewDay(day)
+            }
         }
 
     }
 
-    suspend fun insertANewDay(
-        newDay: DayEntity
-    ) {
-        newDay.let { dao.insertOrUpdateDate(it) }
-
+    suspend fun insertANewDay(newDay: DayEntity) {
+        dayDao.insertOrUpdateDate(newDay)
     }
 
-    fun getAllDays(): Flow<List<DayEntity>> {
-        return dao.getAll()
+    val allDays = dayDao.getAll()
+
+    private fun getAllDaysWithoutFlow() = dayDao.getAllWithoutFlow()
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun getPublicHolidayFromRemote() =
+        publicHolidayService.getPublicHolidaysForAZoneForAYear(LocalDate.now().year)
+
+    suspend fun getPublicHolidayFromDb() = publicHolidayDao.getAll()
+
+    suspend fun insertOrUpdatePublicHoliday(publicHoliday: PublicHolidayEntity) {
+        publicHolidayDao.insertOrUpdatePublicHoliday(publicHoliday)
     }
 
-    private fun getAllDaysWithoutFlow() = dao.getAllWithoutFlow()
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun hasPublicHolidayForYear(year: Int) =
+        getPublicHolidayFromDb().any { it.date.year == year }
+
+    suspend fun getLastDayStoredInDb() = dayDao.findLastDate()
 }

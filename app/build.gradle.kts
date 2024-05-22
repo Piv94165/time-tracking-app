@@ -82,11 +82,22 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
     // Hilt
-    // implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.google.dagger.hilt.android)
     ksp(libs.google.dagger.hilt.compiler)
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     kspAndroidTest(libs.google.dagger.hilt.android.testing)
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    // Retrofit with Scalar Converter
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    // Moshi
+    implementation(libs.squareup.retrofit2.converter.moshi)
+    implementation(libs.squareup.moshi)
+    implementation(libs.squareup.moshi.kotlin)
+    implementation(libs.squareup.moshi.adapters)
+    ksp(libs.squareup.moshi.kotlin.codegen)
 
 }
 

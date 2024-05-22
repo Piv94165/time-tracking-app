@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.time_tracking_app.Convertors
+import com.example.time_tracking_app.utils.Convertors
 import com.example.time_tracking_app.database.DayEntity
 import java.time.LocalDate
 import java.time.LocalTime
@@ -36,7 +36,7 @@ data class DayTrackingType(
 @Composable
 fun DayTrackingContent(
     dayEntityTracking: DayEntity,
-    onClick: () -> Unit, //String, String, String
+    onClick: () -> Unit,
 ) {
     val date: LocalDate = dayEntityTracking.date
     val startTime: LocalTime? = dayEntityTracking.startTime
@@ -78,16 +78,34 @@ fun DayTrackingContent(
         Row {
             Icon(
                 Icons.Default.ArrowForward,
-                contentDescription = "forward arrow icon"
+                contentDescription = null,
             )
-            Text(text = "Heure d'embauche : ${if (startTime!==null) convertors.convertTimeToString(startTime) else " - "}")
+            Text(
+                text = "Heure d'embauche : ${
+                    if (startTime !== null) convertors.convertTimeToString(
+                        startTime
+                    ) else " - "
+                }"
+            )
         }
         Row {
             Icon(
                 Icons.Default.ArrowBack,
-                contentDescription = "back arrow icon"
+                contentDescription = null,
             )
-            Text(text = "Heure de débauche : ${if (endTime!==null) convertors.convertTimeToString(endTime) else " - "}")
+            Text(
+                text = "Heure de débauche : ${
+                    if (endTime !== null) convertors.convertTimeToString(
+                        endTime
+                    ) else " - "
+                }"
+            )
+        }
+        if (dayEntityTracking.isPublicHoliday == true) {
+
+            Row {
+                Text(text = "ceci est un jour férié")
+            }
         }
     }
 }

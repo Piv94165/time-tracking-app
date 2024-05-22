@@ -1,6 +1,7 @@
 package com.example.time_tracking_app
 
 import com.example.time_tracking_app.database.Converters
+import com.example.time_tracking_app.utils.Convertors
 import org.junit.Assert
 import org.junit.Test
 import java.time.LocalDate
@@ -51,5 +52,14 @@ class ConvertersTest {
         val date = LocalDate.of(2024,5,26)
         val resultatConversion = convertersDb.fromDateToTimestamp(date)
         Assert.assertEquals(1716681600.toLong(), resultatConversion)
+    }
+
+    @Test
+    fun testStringApiDateToLocalDate() {
+        val stringDate = "2025-07-14"
+        val resultatConversion = convertersDb.convertStringApiDateToLocalDate(stringDate)
+        Assert.assertEquals(resultatConversion.year,2025)
+        Assert.assertEquals(resultatConversion.monthValue,7)
+        Assert.assertEquals(resultatConversion.dayOfMonth,14)
     }
 }

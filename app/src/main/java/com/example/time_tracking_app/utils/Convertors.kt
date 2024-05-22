@@ -1,4 +1,4 @@
-package com.example.time_tracking_app
+package com.example.time_tracking_app.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi

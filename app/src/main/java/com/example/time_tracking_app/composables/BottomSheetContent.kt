@@ -16,7 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.time_tracking_app.Convertors
+import com.example.time_tracking_app.utils.Convertors
 import com.example.time_tracking_app.database.DayEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

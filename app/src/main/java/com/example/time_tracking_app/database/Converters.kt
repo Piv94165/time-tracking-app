@@ -7,6 +7,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
 class Converters {
 
@@ -39,5 +41,11 @@ class Converters {
             val localDateTime = LocalDateTime.of(2000, 1, 1, it.hour, it.minute)
             localDateTime.toEpochSecond(ZoneOffset.of("Z"))
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun convertStringApiDateToLocalDate(stringDate: String): LocalDate {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return LocalDate.parse(stringDate, formatter)
     }
 }

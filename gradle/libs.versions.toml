@@ -1,5 +1,6 @@
 [versions]
 agp = "8.4.0"
+hiltNavigationCompose = "1.2.0"
 kotlin = "1.9.24"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -12,9 +13,12 @@ hilt_android_version = "2.50"
 hilt_common_version = "1.2.0"
 hilt_navigation_compose_version = "1.2.0"
 hilt_work_version = "1.2.0"
+moshi_version = "1.15.0"
+retrofit_version = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -31,6 +35,11 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 google-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt_android_version" }
 google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt_android_version" }
 google-dagger-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt_android_version" }
+squareup-moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi_version" }
+squareup-moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi_version" }
+squareup-moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi_version" }
+squareup-moshi-adapters = { group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "moshi_version" }
+squareup-retrofit2-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit_version" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
