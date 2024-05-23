@@ -16,7 +16,9 @@ class UseCase @Inject constructor(
     private val converters = Converters()
 
     val allDays = repository.allDays
+    fun allDaysAsFun() = repository.allDaysAsFun()
 
+    private fun getDaysByDates(dates: Array<LocalDate>) = repository.getDaysByDates(dates)
     @RequiresApi(Build.VERSION_CODES.O)
     fun getDayByDate (date:LocalDate) = repository.getDayByDate(date)
 
@@ -74,6 +76,12 @@ class UseCase @Inject constructor(
             }
         }
         return week.filterNotNull()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getAllDaysOfSpecificWeek(week: Int, year: Int): Flow<List<DayEntity>> {
+        val mondayOfTheWeek = LocalDate.ofYearDay(year, (week - 1) * 7 + 1)
+        return getDaysByDates(Array(5) { mondayOfTheWeek.plusDays(it.toLong()) })
     }
 
 }

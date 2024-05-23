@@ -18,14 +18,14 @@ class DayRepository @Inject constructor(
     private val publicHolidayDao: PublicHolidayDao,
     private val publicHolidayService: PublicHolidaysService,
 ) {
-    private val converters = Converters()
 
     val allDays = dayDao.getAll()
+    fun allDaysAsFun() = dayDao.getAll()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getDayByDate(date:LocalDate) = dayDao.findByDate(
-        converters.fromDateToTimestamp(date).toString()
-    )
+    fun getDayByDate(date:LocalDate) = dayDao.findByDate(date)
+
+    fun getDaysByDates(dates: Array<LocalDate>) = dayDao.loadAllByDates(dates)
 
     suspend fun insertANewDay(newDay: DayEntity) {
         dayDao.insertOrUpdateDate(newDay)

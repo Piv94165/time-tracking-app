@@ -22,6 +22,7 @@ import com.example.time_tracking_app.composables.todayPage.TodayPageViewModel
 import com.example.time_tracking_app.composables.weekPage.WeekPage
 import com.example.time_tracking_app.composables.weekPage.WeekPageViewModel
 import com.example.time_tracking_app.database.DayEntity
+import kotlinx.coroutines.selects.select
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -33,7 +34,7 @@ fun BottomNavBar(
     NavigationBar(
     ) {
         itemsList.forEachIndexed { index, item ->
-            NavigationBarItem(selected = false,
+            NavigationBarItem(selected = index == selectedItem.intValue,
                 onClick = {
                     selectedItem.intValue = index
                     navController.navigate(item.key)

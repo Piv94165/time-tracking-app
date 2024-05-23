@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,6 +21,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -28,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.time_tracking_app.composables.DayTrackingContent
 import com.example.time_tracking_app.composables.EditDay
 import com.example.time_tracking_app.database.DayEntity
+import com.example.time_tracking_app.topNavigation.TopNavBar
 import com.example.time_tracking_app.utils.Convertors
 import java.time.LocalDate
 import java.time.LocalTime
@@ -38,6 +41,10 @@ import java.time.LocalTime
 fun WeekPage(
     allDays: List<DayEntity>,
     onClickDay: (DayEntity) -> Unit,
+    weekOfYear: Int,
+    year: Int,
+    onPreviewWeekClicked: () -> Unit,
+    onNextWeekClicked: () -> Unit,
     convertors: Convertors,
 ) {
     val dayEntityClicked = remember {
@@ -64,6 +71,37 @@ fun WeekPage(
         }
     }
 
+    Column {
+        TopNavBar(
+            weekNumber = weekOfYear,
+            year = year,
+            onPreviousWeekClicked = onPreviewWeekClicked,
+            onNextWeekClicked = onNextWeekClicked,
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+                .background(color = MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            /*item {
+                TopNavBar(
+                    weekNumber = weekOfYear,
+                    year = year,
+                    onPreviousWeekClicked = onPreviewWeekClicked,
+                    onNextWeekClicked = onNextWeekClicked,
+                )
+            }*/
+            items(allDays) { day ->
+                DayTrackingContent(day, convertors) {
+                    timeEditSheetIsShown.value = true
+                    dayEntityClicked.value = day
+                }
+            }
+        }
+    }
+    /*
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -71,6 +109,14 @@ fun WeekPage(
             .background(color = MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        item {
+            TopNavBar(
+                weekNumber = weekOfYear,
+                year = year,
+                onPreviousWeekClicked = onPreviewWeekClicked,
+                onNextWeekClicked = onNextWeekClicked,
+            )
+        }
         items(allDays) { day ->
             DayTrackingContent(day, convertors) {
                 timeEditSheetIsShown.value = true
@@ -78,6 +124,8 @@ fun WeekPage(
             }
         }
     }
+
+     */
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -93,7 +141,11 @@ fun PreviewWeekPage() {
             DayEntity(date = LocalDate.now().plusDays(1))
         ),
         convertors = Convertors(),
-        onClickDay = {_ -> }
+        onClickDay = { _ -> },
+        onPreviewWeekClicked = {},
+        onNextWeekClicked = {},
+        weekOfYear = 23,
+        year = 2024,
     )
 }
 
@@ -104,6 +156,10 @@ fun PreviewEmptyWeekPage() {
     WeekPage(
         allDays = emptyList(),
         convertors = Convertors(),
-        onClickDay = {_ -> }
+        onClickDay = { _ -> },
+        onPreviewWeekClicked = {},
+        onNextWeekClicked = {},
+        weekOfYear = 23,
+        year = 2024,
     )
 }

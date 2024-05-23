@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.time_tracking_app.bottomNavigation.BottomNavBar
 import com.example.time_tracking_app.bottomNavigation.BottomNavBarPageContent
 import com.example.time_tracking_app.bottomNavigation.NavigationItem
+import com.example.time_tracking_app.topNavigation.TopNavBar
 import com.example.time_tracking_app.ui.theme.TimetrackingappTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,8 +54,11 @@ class MainActivity : ComponentActivity() {
                 )
 
                 val selectedItemBottomNavBar = remember {
-                    mutableIntStateOf(1)
+                    mutableIntStateOf(0)
                 }
+
+
+
 
                 Scaffold(
                     bottomBar = {
@@ -64,9 +68,7 @@ class MainActivity : ComponentActivity() {
                             navController = navController
                         )
                     },
-                    topBar = {
-
-                    }) { paddingValues ->
+                ) { paddingValues ->
                     BottomNavBarPageContent(
                         paddingValues = paddingValues,
                         navController = navController
