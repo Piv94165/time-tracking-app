@@ -63,6 +63,9 @@ class MainActivity : ComponentActivity() {
                             selectedItem = selectedItemBottomNavBar,
                             navController = navController
                         )
+                    },
+                    topBar = {
+
                     }) { paddingValues ->
                     BottomNavBarPageContent(
                         paddingValues = paddingValues,
