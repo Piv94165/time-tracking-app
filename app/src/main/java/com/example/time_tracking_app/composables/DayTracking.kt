@@ -36,6 +36,7 @@ data class DayTrackingType(
 @Composable
 fun DayTrackingContent(
     dayEntityTracking: DayEntity,
+    convertors: Convertors,
     onClick: () -> Unit,
 ) {
     val date: LocalDate = dayEntityTracking.date
@@ -49,8 +50,6 @@ fun DayTrackingContent(
         date == today -> Color(0xFFFFC1C0) // today
         else -> Color(0xFFE5E7E9) // next days
     }
-
-    val convertors = Convertors()
 
     Column(
         modifier = Modifier

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.example.time_tracking_app.composables.DayTrackingContent
 import com.example.time_tracking_app.composables.EditDay
 import com.example.time_tracking_app.database.DayEntity
+import com.example.time_tracking_app.utils.Convertors
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -37,6 +38,7 @@ import java.time.LocalTime
 fun WeekPage(
     allDays: List<DayEntity>,
     onClickDay: (DayEntity) -> Unit,
+    convertors: Convertors,
 ) {
     val dayEntityClicked = remember {
         mutableStateOf<DayEntity?>(null)
@@ -54,6 +56,7 @@ fun WeekPage(
             EditDay(
                 dayClicked = dayEntityClicked.value,
                 timeEditSheetIsShown = timeEditSheetIsShown,
+                convertors = convertors,
                 insertNewDay = { day ->
                     onClickDay(day)
                 },
@@ -69,7 +72,7 @@ fun WeekPage(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(allDays) { day ->
-            DayTrackingContent(day) {
+            DayTrackingContent(day, convertors) {
                 timeEditSheetIsShown.value = true
                 dayEntityClicked.value = day
             }
@@ -88,10 +91,10 @@ fun PreviewWeekPage() {
                 startTime = LocalTime.of(9, 32)
             ),
             DayEntity(date = LocalDate.now().plusDays(1))
-        )
-    ) {
-        // Not needed
-    }
+        ),
+        convertors = Convertors(),
+        onClickDay = {_ -> }
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -99,8 +102,8 @@ fun PreviewWeekPage() {
 @Composable
 fun PreviewEmptyWeekPage() {
     WeekPage(
-        allDays = emptyList()
-    ) {
-        // Not needed
-    }
+        allDays = emptyList(),
+        convertors = Convertors(),
+        onClickDay = {_ -> }
+    )
 }

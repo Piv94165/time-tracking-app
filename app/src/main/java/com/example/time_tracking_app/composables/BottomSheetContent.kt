@@ -26,10 +26,10 @@ import kotlinx.coroutines.launch
 fun EditDay(
     dayClicked: DayEntity?,
     timeEditSheetIsShown: MutableState<Boolean>,
+    convertors: Convertors,
     insertNewDay: suspend (DayEntity) -> Unit,
 
     ) {
-    val convertors = Convertors()
     val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = Modifier

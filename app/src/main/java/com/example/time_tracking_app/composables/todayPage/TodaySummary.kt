@@ -19,8 +19,8 @@ import com.example.time_tracking_app.utils.Convertors
 @Composable
 fun TodaySummary(
     day: DayEntity,
+    convertors: Convertors,
 ) {
-    val convertors = Convertors()
     Column (
         modifier = Modifier
             .fillMaxSize()
