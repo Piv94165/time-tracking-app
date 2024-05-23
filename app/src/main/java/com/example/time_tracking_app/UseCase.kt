@@ -17,6 +17,9 @@ class UseCase @Inject constructor(
 
     val allDays = repository.allDays
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDayByDate (date:LocalDate) = repository.getDayByDate(date)
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun initializeUserData() {
@@ -72,4 +75,5 @@ class UseCase @Inject constructor(
         }
         return week.filterNotNull()
     }
+
 }

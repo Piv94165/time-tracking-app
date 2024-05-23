@@ -23,10 +23,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.time_tracking_app.composables.DayTrackingContent
 import com.example.time_tracking_app.composables.EditDay
 import com.example.time_tracking_app.database.DayEntity
+import java.time.LocalDate
+import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -71,5 +74,33 @@ fun WeekPage(
                 dayEntityClicked.value = day
             }
         }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview
+@Composable
+fun PreviewWeekPage() {
+    WeekPage(
+        allDays = listOf(
+            DayEntity(
+                date = LocalDate.now(),
+                startTime = LocalTime.of(9, 32)
+            ),
+            DayEntity(date = LocalDate.now().plusDays(1))
+        )
+    ) {
+        // Not needed
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview
+@Composable
+fun PreviewEmptyWeekPage() {
+    WeekPage(
+        allDays = emptyList()
+    ) {
+        // Not needed
     }
 }

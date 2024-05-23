@@ -39,7 +39,8 @@ data class DayEntity (
             val duration = Duration.between(startTime, endTime)
             val hours = duration.toHours()
             val minutes = (duration.toMinutes() % 60)
-            formattedDuration = "${hours}h${minutes}"
+            val minutesString = if (minutes < 10) "0$minutes" else "$minutes"
+            formattedDuration = if (hours.toInt() ==0) "${minutes}min" else "${hours}h${minutesString}"
         }
         return formattedDuration
     }
