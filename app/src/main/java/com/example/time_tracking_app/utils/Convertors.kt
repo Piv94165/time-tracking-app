@@ -5,8 +5,9 @@ import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class Convertors {
+class Convertors @Inject constructor() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertTimeToString(time: LocalTime): String {

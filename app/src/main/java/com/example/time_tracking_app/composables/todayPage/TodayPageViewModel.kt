@@ -6,16 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.time_tracking_app.UseCase
 import com.example.time_tracking_app.database.DayEntity
+import com.example.time_tracking_app.utils.Convertors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class TodayPageViewModel @Inject constructor(
-    private val useCase: UseCase
+    private val useCase: UseCase,
+    private val convertors: Convertors,
 ) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -27,6 +28,8 @@ class TodayPageViewModel @Inject constructor(
             useCase.addOrUpdateANewDayLocally(day)
         }
     }
+
+    fun providesConvertors() = convertors
 
 
 

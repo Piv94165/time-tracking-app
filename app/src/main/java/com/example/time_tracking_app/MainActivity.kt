@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -35,7 +34,6 @@ import com.example.time_tracking_app.composables.weekPage.WeekPageViewModel
 import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.ui.theme.TimetrackingappTheme
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -109,6 +107,7 @@ class MainActivity : ComponentActivity() {
                                         updatedDay
                                         )
                                     },
+                                    convertors= viewModel.providesConvertors(),
                                 )
                             }
                         }
@@ -118,6 +117,7 @@ class MainActivity : ComponentActivity() {
                             WeekPage(
                                 allDays = days,
                                 onClickDay = { day -> viewModel.editDay(day) },
+                                convertors = viewModel.providesConvertors(),
                             )
                         }
                     }
