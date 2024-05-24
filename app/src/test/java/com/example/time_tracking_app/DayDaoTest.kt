@@ -7,7 +7,6 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import app.cash.turbine.test
 import com.example.time_tracking_app.database.AppDatabase
-import com.example.time_tracking_app.database.Converters
 import com.example.time_tracking_app.database.DayDao
 import com.example.time_tracking_app.database.DayEntity
 import kotlinx.coroutines.runBlocking
@@ -31,7 +30,6 @@ class DayDaoTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .allowMainThreadQueries()
-            //.addTypeConverter(Converters())
             .build()
         dayDao = db.dayDao()
     }

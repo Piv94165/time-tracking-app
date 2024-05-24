@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.temporal.WeekFields
@@ -39,8 +40,14 @@ class WeekPageViewModel @Inject constructor(
     private val _selectedYear = MutableStateFlow(2024)
     val selectedYear : StateFlow<Int> = _selectedYear
 
-    fun allDaysForWeek() =
-        useCase.getAllDaysOfSpecificWeek(selectedWeek.value, selectedYear.value)
+    fun allDaysForWeek(): StateFlow<List<DayEntity>> {
+        val _result = MutableStateFlow<List<DayEntity>>(emptyList())
+        val result : StateFlow<List<DayEntity>> = _result
+        viewModelScope.launch(Dispatchers.IO) {
+           useCase.getAllDaysOfSpecificWeek(selectedWeek.value, selectedYear.value).collect {_result.value = it}
+        }
+        return result
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
