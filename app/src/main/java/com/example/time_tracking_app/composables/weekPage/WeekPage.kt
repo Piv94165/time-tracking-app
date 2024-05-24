@@ -1,7 +1,6 @@
 package com.example.time_tracking_app.composables.weekPage
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,14 +13,8 @@ import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.example.time_tracking_app.composables.DayTrackingContent
 import com.example.time_tracking_app.composables.EditDay
 import com.example.time_tracking_app.database.DayEntity
-import com.example.time_tracking_app.topNavigation.TopNavBar
+import com.example.time_tracking_app.composables.weekPage.topNavigation.TopNavBar
 import com.example.time_tracking_app.utils.Convertors
 import java.time.LocalDate
 import java.time.LocalTime
@@ -43,6 +36,7 @@ fun WeekPage(
     onClickDay: (DayEntity) -> Unit,
     weekOfYear: Int,
     year: Int,
+    workingHours: String,
     onPreviewWeekClicked: () -> Unit,
     onNextWeekClicked: () -> Unit,
     convertors: Convertors,
@@ -75,6 +69,7 @@ fun WeekPage(
         TopNavBar(
             weekNumber = weekOfYear,
             year = year,
+            workingHours = workingHours,
             onPreviousWeekClicked = onPreviewWeekClicked,
             onNextWeekClicked = onNextWeekClicked,
         )
@@ -140,6 +135,7 @@ fun PreviewWeekPage() {
             ),
             DayEntity(date = LocalDate.now().plusDays(1))
         ),
+        workingHours = "10h30",
         convertors = Convertors(),
         onClickDay = { _ -> },
         onPreviewWeekClicked = {},
@@ -155,6 +151,7 @@ fun PreviewWeekPage() {
 fun PreviewEmptyWeekPage() {
     WeekPage(
         allDays = emptyList(),
+        workingHours = "0 min",
         convertors = Convertors(),
         onClickDay = { _ -> },
         onPreviewWeekClicked = {},

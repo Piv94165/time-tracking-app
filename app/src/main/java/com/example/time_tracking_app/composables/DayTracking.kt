@@ -70,7 +70,7 @@ fun DayTrackingContent(
                 modifier = Modifier,
             )
             Text(
-                text = "Durée : ${dayEntityTracking.duration()}",
+                text = "Durée : ${dayEntityTracking.stringDuration()}",
                 modifier = Modifier.align(Alignment.CenterVertically),
             )
         }

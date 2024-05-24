@@ -2,7 +2,7 @@ package com.example.time_tracking_app.composables.weekPage
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.time_tracking_app.UseCase
@@ -10,11 +10,10 @@ import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.utils.Convertors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.time.LocalDate
 import java.time.temporal.WeekFields
 import java.util.Locale
@@ -36,19 +35,27 @@ class WeekPageViewModel @Inject constructor(
             WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()
         )
     )
-    val selectedWeek : StateFlow<Int> = _selectedWeek
+    val selectedWeek: StateFlow<Int> = _selectedWeek
     private val _selectedYear = MutableStateFlow(2024)
-    val selectedYear : StateFlow<Int> = _selectedYear
+    val selectedYear: StateFlow<Int> = _selectedYear
+
+    val _workingHours= MutableStateFlow("")
+    val workingHoursDuration = mutableStateOf<Duration>(Duration.ZERO)
+    val workingHours :StateFlow<String> = _workingHours
 
     fun allDaysForWeek(): StateFlow<List<DayEntity>> {
         val _result = MutableStateFlow<List<DayEntity>>(emptyList())
-        val result : StateFlow<List<DayEntity>> = _result
+        val result: StateFlow<List<DayEntity>> = _result
         viewModelScope.launch(Dispatchers.IO) {
-           useCase.getAllDaysOfSpecificWeek(selectedWeek.value, selectedYear.value).collect {_result.value = it}
+            useCase.getAllDaysOfSpecificWeek(selectedWeek.value, selectedYear.value)
+                .collect { _result.value = it }
         }
         return result
     }
 
+    fun getWorkingHours(weekDays: List<DayEntity>): String {
+        return convertors.convertDurationToString(useCase.getWorkingHours(weekDays))
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun editDay(day: DayEntity) {
@@ -58,21 +65,21 @@ class WeekPageViewModel @Inject constructor(
     }
 
     fun loadPreviousWeek() {
-        if (rawSelectedWeek>1) {
+        if (rawSelectedWeek > 1) {
             rawSelectedWeek -= 1
         } else {
             rawSelectedWeek = 52
-            rawSelectedYear -=1
+            rawSelectedYear -= 1
         }
         _selectedWeek.value = rawSelectedWeek
     }
 
     fun loadNextWeek() {
-        if (rawSelectedWeek<52) {
+        if (rawSelectedWeek < 52) {
             rawSelectedWeek += 1
         } else {
             rawSelectedWeek = 1
-            rawSelectedYear +=1
+            rawSelectedYear += 1
         }
         _selectedWeek.value = rawSelectedWeek
     }

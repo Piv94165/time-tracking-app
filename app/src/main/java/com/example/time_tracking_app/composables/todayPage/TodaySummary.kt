@@ -34,7 +34,7 @@ fun TodaySummary(
         ) {
             Text(text = "Heure d'embauche : ${day.startTime?.let { convertors.convertTimeToString(it) }}")
             Text(text = "Heure de débauche : ${day.endTime?.let { convertors.convertTimeToString(it) }}")
-            Text(text = "Temps de travail : ${day.duration()}")
+            Text(text = "Temps de travail : ${day.stringDuration()}")
         }
     }
 

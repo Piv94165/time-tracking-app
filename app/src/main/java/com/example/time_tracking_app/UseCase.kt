@@ -8,6 +8,7 @@ import com.example.time_tracking_app.database.PublicHolidayEntity
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
+import java.time.Duration
 
 class UseCase @Inject constructor(
     private val repository: DayRepository,
@@ -90,6 +91,16 @@ class UseCase @Inject constructor(
             addOrUpdateANewDayLocally(DayEntity(mondayOfTheWeek.plusDays((4-i).toLong())))
         }
         return getDaysByDates(Array(5) { mondayOfTheWeek.plusDays(it.toLong()) })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getWorkingHours(weekDays: List<DayEntity>): Duration {
+        var hours = Duration.ZERO
+        weekDays.forEach {day ->
+            val dur = day.duration()
+            hours = hours.plus(dur)
+        }
+        return hours
     }
 
 }

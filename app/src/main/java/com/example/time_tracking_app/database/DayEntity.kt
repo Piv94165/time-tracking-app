@@ -32,16 +32,24 @@ data class DayEntity (
             )
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun duration(): String {
+    fun stringDuration(): String {
         var formattedDuration = "-"
 
         if (startTime != null && endTime != null) {
-            val duration = Duration.between(startTime, endTime)
+            val duration = duration()
             val hours = duration.toHours()
             val minutes = (duration.toMinutes() % 60)
             val minutesString = if (minutes < 10) "0$minutes" else "$minutes"
             formattedDuration = if (hours.toInt() ==0) "${minutes}min" else "${hours}h${minutesString}"
         }
         return formattedDuration
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun duration(): Duration {
+        if (startTime != null && endTime != null) {
+            return Duration.between(startTime, endTime)
+        }
+        return Duration.ZERO
     }
 }
