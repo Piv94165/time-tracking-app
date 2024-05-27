@@ -60,9 +60,7 @@ fun BottomNavBarPageContent(
             )
             val year by viewModel.selectedYear.collectAsState(initial = LocalDate.now().year)
             val days by viewModel.allDaysForWeek().collectAsState(initial = emptyList())
-            val workingHours by remember {
-                derivedStateOf { viewModel.getWorkingHours(days) }
-            }
+            val workingHours by viewModel.workingHoursDuration.collectAsState(initial = "")
             WeekPage(
                 allDays = days,
                 onClickDay = { day -> viewModel.editDay(day) },

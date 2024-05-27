@@ -39,16 +39,22 @@ class WeekPageViewModel @Inject constructor(
     private val _selectedYear = MutableStateFlow(2024)
     val selectedYear: StateFlow<Int> = _selectedYear
 
-    val _workingHours= MutableStateFlow("")
-    val workingHoursDuration = mutableStateOf<Duration>(Duration.ZERO)
-    val workingHours :StateFlow<String> = _workingHours
+    val _workingHours = MutableStateFlow("")
+    val workingHoursDuration = MutableStateFlow<String>("")
 
     fun allDaysForWeek(): StateFlow<List<DayEntity>> {
         val _result = MutableStateFlow<List<DayEntity>>(emptyList())
         val result: StateFlow<List<DayEntity>> = _result
         viewModelScope.launch(Dispatchers.IO) {
             useCase.getAllDaysOfSpecificWeek(selectedWeek.value, selectedYear.value)
-                .collect { _result.value = it }
+                .collect { days ->
+                    _result.value = days
+                    workingHoursDuration.value = convertors.convertDurationToString(
+                        days
+                            .map { it.duration() }
+                            .reduce { sum, duration -> sum.plus(duration) }
+                    )
+                }
         }
         return result
     }
