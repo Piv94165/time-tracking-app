@@ -27,7 +27,7 @@ object DatabaseModule {
     fun providesDayDao(db: AppDatabase)=db.dayDao()
 
     @Provides
-    fun providesPublicHolidaysDao(db: AppDatabase) = db.PublicHolidayDao()
+    fun providesPublicHolidaysDao(db: AppDatabase) = db.publicHolidayDao()
 }
 
 

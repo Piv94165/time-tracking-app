@@ -28,6 +28,12 @@ interface DayDao {
     fun findByDate(date: LocalDate): Flow<DayEntity>
 
     @Query(
+        "SELECT * FROM DayEntity WHERE date LIKE :date" +
+                " LIMIT 1")
+    fun findByDateWithoutFlow(date: LocalDate): DayEntity?
+
+
+    @Query(
         "SELECT * FROM DayEntity ORDER BY date DESC LIMIT 1"
     )
     fun findLastDate(): DayEntity?

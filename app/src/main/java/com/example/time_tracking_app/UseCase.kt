@@ -24,6 +24,9 @@ class UseCase @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun getDayByDate (date:LocalDate) = repository.getDayByDate(date)
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDayByDateWithoutFlow(date:LocalDate) = repository.getDayByDateWithoutFlow(date)
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun initializeUserData() {
@@ -64,6 +67,14 @@ class UseCase @Inject constructor(
             day.isPublicHoliday = true
         }
         repository.insertANewDay(day)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun createDayEntityForLocalDateIfDoesNotExist(localDate: LocalDate) {
+        val dayFromDb = repository.getDayByDateWithoutFlow(localDate)
+        if (dayFromDb == null) {
+            addOrUpdateANewDayLocally(DayEntity(date = localDate))
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

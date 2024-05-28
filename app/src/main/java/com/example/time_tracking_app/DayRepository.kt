@@ -22,6 +22,9 @@ class DayRepository @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun getDayByDate(date:LocalDate) = dayDao.findByDate(date)
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDayByDateWithoutFlow(date:LocalDate) = dayDao.findByDateWithoutFlow(date)
+
     fun getDaysByDates(dates: Array<LocalDate>) = dayDao.loadAllByDates(dates)
 
     fun getDaysByDatesWithoutFlow(dates: Array<LocalDate>) = dayDao.loadAllByDatesWithoutFlow(dates)

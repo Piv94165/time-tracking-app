@@ -14,6 +14,6 @@ import androidx.room.TypeConverters
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dayDao(): DayDao
-    abstract fun PublicHolidayDao(): PublicHolidayDao
+    abstract fun publicHolidayDao(): PublicHolidayDao
 
 }
