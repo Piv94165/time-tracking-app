@@ -15,6 +15,9 @@ hilt_navigation_compose_version = "1.2.0"
 hilt_work_version = "1.2.0"
 moshi_version = "1.15.0"
 retrofit_version = "2.9.0"
+robolectric_version = "4.11.1"
+coreKtxVersion = "1.5.0"
+turbine_version = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +43,10 @@ squareup-moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", v
 squareup-moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi_version" }
 squareup-moshi-adapters = { group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "moshi_version" }
 squareup-retrofit2-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit_version" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric_version" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
+cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine_version" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

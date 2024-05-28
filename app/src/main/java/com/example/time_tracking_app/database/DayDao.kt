@@ -5,13 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.time_tracking_app.DatabaseModule
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 @Dao
 interface DayDao {
@@ -22,12 +17,15 @@ interface DayDao {
     fun getAllWithoutFlow(): List<DayEntity>
 
     @Query("SELECT * FROM DayEntity WHERE date IN (:dayDates)")
-    fun loadAllByDates(dayDates: Array<String>): Flow<List<DayEntity>>
+    fun loadAllByDates(dayDates: Array<LocalDate>): Flow<List<DayEntity>>
+
+    @Query("SELECT * FROM DayEntity WHERE date IN (:dayDates)")
+    fun loadAllByDatesWithoutFlow(dayDates: Array<LocalDate>): List<DayEntity>
 
     @Query(
         "SELECT * FROM DayEntity WHERE date LIKE :date" +
             " LIMIT 1")
-    fun findByDate(date: String): Flow<DayEntity>
+    fun findByDate(date: LocalDate): Flow<DayEntity>
 
     @Query(
         "SELECT * FROM DayEntity ORDER BY date DESC LIMIT 1"

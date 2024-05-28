@@ -5,10 +5,10 @@ import androidx.annotation.RequiresApi
 import com.example.time_tracking_app.database.Converters
 import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.database.PublicHolidayEntity
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
+import java.time.Duration
 
 class UseCase @Inject constructor(
     private val repository: DayRepository,
@@ -16,7 +16,11 @@ class UseCase @Inject constructor(
     private val converters = Converters()
 
     val allDays = repository.allDays
+    fun allDaysAsFun() = repository.allDaysAsFun()
 
+    private fun getDaysByDates(dates: Array<LocalDate>) = repository.getDaysByDates(dates)
+
+    private fun getDaysByDatesWithoutFlow(dates: Array<LocalDate>) = repository.getDaysByDatesWithoutFlow(dates)
     @RequiresApi(Build.VERSION_CODES.O)
     fun getDayByDate (date:LocalDate) = repository.getDayByDate(date)
 
@@ -74,6 +78,29 @@ class UseCase @Inject constructor(
             }
         }
         return week.filterNotNull()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun getAllDaysOfSpecificWeek(week: Int, year: Int): Flow<List<DayEntity>> {
+        val mondayOfTheWeek = LocalDate.ofYearDay(year, (week - 1) * 7 + 1)
+        val daysStoredInDb = getDaysByDatesWithoutFlow(Array(5) { mondayOfTheWeek.plusDays(it.toLong()) })
+
+        val daysCount = daysStoredInDb.size
+        // Add missing days (first days of the week)
+        for (i in daysCount..4) {
+            addOrUpdateANewDayLocally(DayEntity(mondayOfTheWeek.plusDays((4-i).toLong())))
+        }
+        return getDaysByDates(Array(5) { mondayOfTheWeek.plusDays(it.toLong()) })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getWorkingHours(weekDays: List<DayEntity>): Duration {
+        var hours = Duration.ZERO
+        weekDays.forEach {day ->
+            val dur = day.duration()
+            hours = hours.plus(dur)
+        }
+        return hours
     }
 
 }

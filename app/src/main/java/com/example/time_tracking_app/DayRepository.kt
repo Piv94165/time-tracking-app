@@ -2,15 +2,12 @@ package com.example.time_tracking_app
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.time_tracking_app.database.Converters
 import com.example.time_tracking_app.database.DayDao
 import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.database.PublicHolidayDao
 import com.example.time_tracking_app.database.PublicHolidayEntity
 import com.example.time_tracking_app.network.PublicHolidaysService
-import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
-import java.time.LocalTime
 import javax.inject.Inject
 
 class DayRepository @Inject constructor(
@@ -18,14 +15,16 @@ class DayRepository @Inject constructor(
     private val publicHolidayDao: PublicHolidayDao,
     private val publicHolidayService: PublicHolidaysService,
 ) {
-    private val converters = Converters()
 
     val allDays = dayDao.getAll()
+    fun allDaysAsFun() = dayDao.getAll()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getDayByDate(date:LocalDate) = dayDao.findByDate(
-        converters.fromDateToTimestamp(date).toString()
-    )
+    fun getDayByDate(date:LocalDate) = dayDao.findByDate(date)
+
+    fun getDaysByDates(dates: Array<LocalDate>) = dayDao.loadAllByDates(dates)
+
+    fun getDaysByDatesWithoutFlow(dates: Array<LocalDate>) = dayDao.loadAllByDatesWithoutFlow(dates)
 
     suspend fun insertANewDay(newDay: DayEntity) {
         dayDao.insertOrUpdateDate(newDay)

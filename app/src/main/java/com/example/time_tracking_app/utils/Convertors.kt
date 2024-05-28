@@ -6,6 +6,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import java.time.Duration
 
 class Convertors @Inject constructor() {
 
@@ -16,7 +17,7 @@ class Convertors @Inject constructor() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertStringToTime(time: String): LocalTime {
-        val timeLocalTime = LocalTime.parse(time,DateTimeFormatter.ofPattern("HH'h'mm"))
+        val timeLocalTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH'h'mm"))
         return timeLocalTime
     }
 
@@ -24,6 +25,16 @@ class Convertors @Inject constructor() {
     fun convertDateToString(date: LocalDate): String {
 
         return "${date.dayOfMonth} ${date.month} ${date.year}"
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun convertDurationToString(duration: Duration): String {
+        var formattedDuration = "-"
+        val hours = duration.toHours()
+        val minutes = (duration.toMinutes() % 60)
+        val minutesString = if (minutes < 10) "0$minutes" else "$minutes"
+        formattedDuration = if (hours.toInt() == 0) "${minutes}min" else "${hours}h${minutesString}"
+        return formattedDuration
     }
 
 

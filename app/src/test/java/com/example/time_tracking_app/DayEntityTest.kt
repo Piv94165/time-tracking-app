@@ -16,7 +16,7 @@ class DayEntityTest {
             endTime = LocalTime.of(12, 27),
         )
 
-        Assert.assertEquals("1h27", dayEntity.duration())
+        Assert.assertEquals("1h27", dayEntity.stringDuration())
     }
 
     @Test
@@ -27,6 +27,6 @@ class DayEntityTest {
             endTime = LocalTime.of(12, 27),
         )
 
-        Assert.assertEquals("1h27", dayEntity.duration())
+        Assert.assertEquals("1h27", dayEntity.stringDuration())
     }
 }

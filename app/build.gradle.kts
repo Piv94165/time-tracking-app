@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -98,6 +99,9 @@ dependencies {
     implementation(libs.squareup.moshi.kotlin)
     implementation(libs.squareup.moshi.adapters)
     ksp(libs.squareup.moshi.kotlin.codegen)
+    //Roboelectric - test ui
+    testImplementation(libs.robolectric)
+    testImplementation(libs.cash.turbine)
 
 }
 
