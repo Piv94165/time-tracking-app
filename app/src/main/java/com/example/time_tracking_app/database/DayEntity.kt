@@ -52,4 +52,9 @@ data class DayEntity (
         }
         return Duration.ZERO
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isEditable(): Boolean {
+        return date <= LocalDate.now() && this.isPublicHoliday == false
+    }
 }
