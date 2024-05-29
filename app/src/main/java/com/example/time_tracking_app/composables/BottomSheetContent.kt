@@ -15,7 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.time_tracking_app.R
 import com.example.time_tracking_app.utils.Convertors
 import com.example.time_tracking_app.database.DayEntity
 import kotlinx.coroutines.Dispatchers
@@ -58,9 +60,11 @@ fun EditDay(
         val isErrorForEndTime = remember {
             mutableStateOf(false)
         }
-        Text(text = "Horaires du ${dayClicked?.date}")
-        TimeInput(writtenTime = writtenStartDate, label = "Heure d'embauche", isErrorForStartTime)
-        TimeInput(writtenTime = writtenEndDate, label = "Heure de débauche", isErrorForEndTime)
+        Text(text = stringResource(id = R.string.validate_hours_page_title, "${ dayClicked?.date?.let {
+            convertors.convertDateToString(it)
+        } }"))
+        TimeInput(writtenTime = writtenStartDate, label = stringResource(id = R.string.start_day_hour_label), isErrorForStartTime)
+        TimeInput(writtenTime = writtenEndDate, label = stringResource(id = R.string.end_day_hour_label), isErrorForEndTime)
         Button(modifier = Modifier.padding(bottom = 4.dp), enabled = !isErrorForStartTime.value&&!isErrorForEndTime.value, onClick = {
             timeEditSheetIsShown.value = false
             if (writtenStartDate.value !== "") {
@@ -77,7 +81,7 @@ fun EditDay(
             }
 
         }) {
-            Text("Valider les horaires")
+            Text(stringResource(id = R.string.validate_hours))
         }
     }
 }

@@ -10,8 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.time_tracking_app.R
 import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.utils.Convertors
 
@@ -28,13 +30,13 @@ fun TodaySummary(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "Résumé de ma journée", fontSize = 30.sp)
+        Text(text = stringResource(id = R.string.day_summary_title), fontSize = 30.sp)
         Column (
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Text(text = "Heure d'embauche : ${day.startTime?.let { convertors.convertTimeToString(it) }}")
-            Text(text = "Heure de débauche : ${day.endTime?.let { convertors.convertTimeToString(it) }}")
-            Text(text = "Temps de travail : ${day.stringDuration()}")
+            Text(text = stringResource(id = R.string.start_day_hour, "${day.startTime?.let { convertors.convertTimeToString(it) }}"))
+            Text(text = stringResource(id = R.string.end_day_hour, "${day.endTime?.let { convertors.convertTimeToString(it) }}"))
+            Text(text = stringResource(id = R.string.working_hours, day.stringDuration()))
         }
     }
 

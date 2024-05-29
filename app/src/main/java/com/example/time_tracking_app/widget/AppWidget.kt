@@ -18,6 +18,9 @@ import androidx.glance.Button
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
+import androidx.glance.IconImageProvider
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
@@ -29,6 +32,7 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
+import com.example.time_tracking_app.R
 import com.example.time_tracking_app.UseCase
 import com.example.time_tracking_app.database.DayDao
 import com.example.time_tracking_app.database.DayEntity
@@ -56,7 +60,7 @@ class AppWidget : GlanceAppWidget() {
 
         provideContent {
             GlanceTheme {
-                Content(dayDao, context, id, usecase)
+                Content(dayDao, context, usecase)
             }
         }
     }
@@ -64,7 +68,8 @@ class AppWidget : GlanceAppWidget() {
     @SuppressLint("CoroutineCreationDuringComposition", "StateFlowValueCalledInComposition")
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
-    fun Content(dayDao: DayDao, context: Context, id: GlanceId, useCase: UseCase) {
+    fun Content(dayDao: DayDao, context: Context, useCase: UseCase) {
+        // TODO : plus sensé utiliser DayDao sachant que tu as le UseCase
         val convertors = Convertors()
         val dayFromUseCase by useCase.getDayByDate(LocalDate.now()).collectAsState(initial = null)
         val coroutineScope = rememberCoroutineScope()
@@ -95,54 +100,21 @@ class AppWidget : GlanceAppWidget() {
 
                     else -> {
                         if (localDayFromUseCase.startTime == null) {
-                            StartMyDayWidget(day = localDayFromUseCase) { updatedDay ->
+                            StartMyDayWidget(day = localDayFromUseCase, context) { updatedDay ->
                                 editDay(updatedDay)
                             }
                         } else if (localDayFromUseCase.endTime == null) {
                             EndMyDayWidget(
                                 day = localDayFromUseCase,
+                                context,
                                 editDay = { updatedDay: DayEntity ->
                                     editDay(updatedDay)
                                 })
                         } else {
-                            TodaySummaryWidget(localDayFromUseCase, convertors)
+                            TodaySummaryWidget(localDayFromUseCase, context, convertors)
                         }
                     }
                 }
-
         }
-
-
     }
-
 }
-
-/*
-Column(
-    modifier = GlanceModifier
-        .padding(horizontal = 12.dp)
-        .fillMaxSize()
-        .background(color = Color.White)
-        .padding(8.dp)
-) {
-    Row(
-        modifier = GlanceModifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = convertors.convertDateToString(today))
-    }
-    Text(text = "Durée : ${todayEntity.value.stringDuration()}")
-    Row {
-        Text(text = "heure d'embauche : ${todayEntity.value.startTime}")
-    }
-    Text(text = "heure de débauche : ${todayEntity.value.endTime}")
-    Button(
-        text = "J'arrête maintenant",
-        onClick = {
-            coroutineScope.launch(Dispatchers.IO) {
-                todayEntity.value.endTime = LocalTime.now()
-                dayDao.insertOrUpdateDate(todayEntity.value) // Uncomment and fix this line as needed
-            }
-        })
-}
- */
