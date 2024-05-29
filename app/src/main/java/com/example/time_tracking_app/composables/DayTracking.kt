@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -18,9 +19,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.semantics.semantics
 import com.example.time_tracking_app.R
 import com.example.time_tracking_app.utils.Convertors
 import com.example.time_tracking_app.database.DayEntity
@@ -44,23 +49,25 @@ fun DayTrackingContent(
     val date: LocalDate = dayEntityTracking.date
     val startTime: LocalTime? = dayEntityTracking.startTime
     val endTime: LocalTime? = dayEntityTracking.endTime
+    val isEditable = dayEntityTracking.isEditable()
 
     val today = LocalDate.now()
 
     val backgroundColor = when {
-        date < today -> Color(0xFFC1C0FF) // previous days
-        date == today -> Color(0xFFFFC1C0) // today
-        else -> Color(0xFFE5E7E9) // next days
+        isEditable && date < today -> colorResource(id = R.color.previous_days) // previous days
+        isEditable && date == today -> colorResource(id = R.color.today) // today
+        else -> colorResource(id = R.color.disabled_days) // next days or public holidays
     }
 
     Column(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .background(color = backgroundColor, shape = RoundedCornerShape(10))
-            .clickable {
+            .padding(16.dp)
+        .clickable(enabled = isEditable) {
                 onClick()
-            }
-            .padding(16.dp),
+            },
+
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
@@ -93,24 +100,38 @@ fun DayTrackingContent(
                 ),
             )
         }
-        Row {
-            Icon(
-                Icons.Default.ArrowBack,
-                contentDescription = null,
-            )
-            Text(
-                text = stringResource(
-                    id = R.string.end_day_hour,
-                    if (endTime !== null) convertors.convertTimeToString(
-                        endTime
-                    ) else " - "
-                ),
-            )
-        }
-        if (dayEntityTracking.isPublicHoliday == true) {
-
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Row {
-                Text(text = stringResource(id = R.string.public_holiday))
+                Icon(
+                    Icons.Default.ArrowBack,
+                    contentDescription = null,
+                )
+                Text(
+                    text = stringResource(
+                        id = R.string.end_day_hour,
+                        if (endTime !== null) convertors.convertTimeToString(
+                            endTime
+                        ) else " - "
+                    ),
+                )
+            }
+            if (dayEntityTracking.isPublicHoliday == true) {
+                Row {
+                    Text(text = stringResource(id = R.string.public_holiday))
+                    Image(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .size(16.dp)
+                            .semantics {
+                                contentDescription = "jour férié"
+                            },
+                        painter = painterResource(id = R.drawable.public_holidays),
+                        contentDescription = null
+                    )
+                }
             }
         }
     }

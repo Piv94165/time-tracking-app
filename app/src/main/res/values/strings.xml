@@ -13,7 +13,7 @@
     <string name="validate_hours_page_title">Horaires du %s</string>
     <string name="working_hours">Temps de travail : %s</string>
     <string name="day_duration">Durée : %s</string>
-    <string name="public_holiday">ceci est un jour férié</string>
+    <string name="public_holiday">férié</string>
     <string name="previous_week">Semaine d\'avant</string>
     <string name="next_week">Semaine d\'après</string>
     <string name="top_navigation_title">%1$s - Semaine %2$s : %3$s</string>
