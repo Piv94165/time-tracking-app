@@ -2,6 +2,9 @@ package com.example.time_tracking_app.composables
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,8 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -47,7 +52,7 @@ fun EditDay(
             mutableStateOf(dayClicked?.startTime)
         }
         val writtenStartTime = remember {
-            derivedStateOf{
+            derivedStateOf {
                 if (startTime.value == null) "" else convertors.convertTimeToString(
                     startTime.value!!
                 )
@@ -57,15 +62,14 @@ fun EditDay(
             mutableStateOf(dayClicked?.endTime)
         }
         val writtenEndTime = remember {
-            derivedStateOf {  if (endTime.value == null) "" else convertors.convertTimeToString(
-                endTime.value!!
-            ) }
+            derivedStateOf {
+                if (endTime.value == null) "" else convertors.convertTimeToString(
+                    endTime.value!!
+                )
+            }
         }
-        val isErrorForStartTime = remember {
-            mutableStateOf(false)
-        }
-        val isErrorForEndTime = remember {
-            mutableStateOf(false)
+        val isButtonEnabled by remember {
+            derivedStateOf { startTime.value != null || endTime.value != null }
         }
         val isStartTimePickerDialogOpen = remember {
             mutableStateOf(false)
@@ -76,6 +80,8 @@ fun EditDay(
 
         TimePickerDialog(time = startTime, showDialog = isStartTimePickerDialogOpen)
         TimePickerDialog(time = endTime, showDialog = isEndTimePickerDialogOpen)
+        val startTimeInteractionSource = MutableInteractionSource()
+        val endTimeInteractionSource = MutableInteractionSource()
         Text(
             text = stringResource(
                 id = R.string.validate_hours_page_title, "${
@@ -86,22 +92,27 @@ fun EditDay(
         TimeInput(
             writtenTime = writtenStartTime,
             label = stringResource(id = R.string.start_day_hour_label),
-            isError = isErrorForStartTime,
-            onClick = {
-                isStartTimePickerDialogOpen.value = true
-            }
+            interactionSource = startTimeInteractionSource
         )
         TimeInput(
             writtenTime = writtenEndTime,
             label = stringResource(id = R.string.end_day_hour_label),
-            isError = isErrorForEndTime,
-            onClick = {
+            interactionSource = endTimeInteractionSource,
+        )
+        if (startTimeInteractionSource.collectIsPressedAsState().value) {
+            LaunchedEffect(Unit) {
+                isStartTimePickerDialogOpen.value = true
+            }
+        }
+
+        if (endTimeInteractionSource.collectIsPressedAsState().value) {
+            LaunchedEffect(Unit) {
                 isEndTimePickerDialogOpen.value = true
             }
-        )
+        }
         Button(
             modifier = Modifier.padding(bottom = 4.dp),
-            enabled = !isErrorForStartTime.value && !isErrorForEndTime.value,
+            enabled = isButtonEnabled,
             onClick = {
                 timeEditSheetIsShown.value = false
                 if (writtenStartTime.value !== "") {

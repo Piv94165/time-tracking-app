@@ -14,25 +14,15 @@ import androidx.compose.runtime.remember
 fun TimeInput(
     writtenTime: State<String>,
     label: String,
-    isError: MutableState<Boolean>,
-    onClick: () -> Unit,
+    interactionSource: MutableInteractionSource,
 ) {
 
     OutlinedTextField(
-        interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
-                LaunchedEffect(interactionSource) {
-                    interactionSource.interactions.collect {
-                        if (it is PressInteraction.Release) {
-                            onClick()
-                        }
-                    }
-                }
-            },
+        interactionSource = interactionSource,
+        readOnly = true,
         value = writtenTime.value,
         onValueChange = {},
-        isError = isError.value,
         label = { Text(label) },
-        supportingText = { Text("ex: 08h12") },
         singleLine = true,
     )
 }

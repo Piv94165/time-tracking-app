@@ -7,6 +7,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import java.time.Duration
+import java.util.Locale
 
 class Convertors @Inject constructor() {
 
@@ -23,8 +24,7 @@ class Convertors @Inject constructor() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertDateToString(date: LocalDate): String {
-
-        return "${date.dayOfMonth} ${date.month} ${date.year}"
+        return DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault()).format(date)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
