@@ -19,6 +19,7 @@
     <string name="top_navigation_title">%1$s - Semaine %2$s : %3$s</string>
     <string name="you_start_your_day">Vous avez commencé votre journée à %s</string>
     <string name="end_of_day_message">C\'est le moment de se reposer !</string>
+    <string name="ok_button">OK</string>
 
 
 
