@@ -67,6 +67,14 @@ class UseCase @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun createDayEntityForLocalDateIfDoesNotExist(localDate: LocalDate) {
+        val dayFromDb = repository.getDayByDateWithoutFlow(localDate)
+        if (dayFromDb == null) {
+            addOrUpdateANewDayLocally(DayEntity(date = localDate))
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun completeWeekOfADay(date: LocalDate): List<LocalDate> {
         val dayOfWeek = date.dayOfWeek.value
         val week = Array<LocalDate?>(5) {null}

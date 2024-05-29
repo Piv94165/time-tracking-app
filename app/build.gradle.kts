@@ -103,6 +103,14 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.cash.turbine)
 
+    //Widget
+    // For AppWidgets support
+    implementation( "androidx.glance:glance-appwidget:1.0.0" )
+    // For interop APIs with Material 2
+    implementation( "androidx.glance:glance-material:1.0.0" )
+    // For interop APIs with Material 3
+    implementation( "androidx.glance:glance-material3:1.0.0" )
+
 }
 
 ksp {

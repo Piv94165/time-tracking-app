@@ -19,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.time_tracking_app.R
 import com.example.time_tracking_app.utils.Convertors
 import com.example.time_tracking_app.database.DayEntity
 import java.time.LocalDate
@@ -70,7 +72,10 @@ fun DayTrackingContent(
                 modifier = Modifier,
             )
             Text(
-                text = "Durée : ${dayEntityTracking.stringDuration()}",
+                text = stringResource(
+                    id = R.string.day_duration,
+                    dayEntityTracking.stringDuration()
+                ),
                 modifier = Modifier.align(Alignment.CenterVertically),
             )
         }
@@ -80,11 +85,12 @@ fun DayTrackingContent(
                 contentDescription = null,
             )
             Text(
-                text = "Heure d'embauche : ${
-                    if (startTime !== null) convertors.convertTimeToString(
-                        startTime
-                    ) else " - "
-                }"
+                text = stringResource(
+                    id = R.string.start_day_hour,
+                    if (startTime !== null)
+                        convertors.convertTimeToString(startTime)
+                    else " - "
+                ),
             )
         }
         Row {
@@ -93,17 +99,18 @@ fun DayTrackingContent(
                 contentDescription = null,
             )
             Text(
-                text = "Heure de débauche : ${
+                text = stringResource(
+                    id = R.string.end_day_hour,
                     if (endTime !== null) convertors.convertTimeToString(
                         endTime
                     ) else " - "
-                }"
+                ),
             )
         }
         if (dayEntityTracking.isPublicHoliday == true) {
 
             Row {
-                Text(text = "ceci est un jour férié")
+                Text(text = stringResource(id = R.string.public_holiday))
             }
         }
     }

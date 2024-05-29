@@ -80,14 +80,6 @@ fun WeekPage(
                 .background(color = MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            /*item {
-                TopNavBar(
-                    weekNumber = weekOfYear,
-                    year = year,
-                    onPreviousWeekClicked = onPreviewWeekClicked,
-                    onNextWeekClicked = onNextWeekClicked,
-                )
-            }*/
             items(allDays) { day ->
                 DayTrackingContent(day, convertors) {
                     timeEditSheetIsShown.value = true
@@ -96,31 +88,6 @@ fun WeekPage(
             }
         }
     }
-    /*
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-            .background(color = MaterialTheme.colorScheme.background),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        item {
-            TopNavBar(
-                weekNumber = weekOfYear,
-                year = year,
-                onPreviousWeekClicked = onPreviewWeekClicked,
-                onNextWeekClicked = onNextWeekClicked,
-            )
-        }
-        items(allDays) { day ->
-            DayTrackingContent(day, convertors) {
-                timeEditSheetIsShown.value = true
-                dayEntityClicked.value = day
-            }
-        }
-    }
-
-     */
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

@@ -22,7 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.time_tracking_app.bottomNavigation.BottomNavBar
 import com.example.time_tracking_app.bottomNavigation.BottomNavBarPageContent
 import com.example.time_tracking_app.bottomNavigation.NavigationItem
-import com.example.time_tracking_app.composables.weekPage.topNavigation.TopNavBar
 import com.example.time_tracking_app.ui.theme.TimetrackingappTheme
 import dagger.hilt.android.AndroidEntryPoint
 
