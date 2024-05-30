@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.Image
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.semantics
 import com.example.time_tracking_app.R
@@ -76,7 +77,7 @@ fun DayTrackingContent(
         ) {
             Text(
                 text = convertors.convertDateToString(date),
-                modifier = Modifier,
+                modifier = Modifier.testTag("day-card-date"),
             )
             Text(
                 text = stringResource(

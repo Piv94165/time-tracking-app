@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.time_tracking_app.composables.DayTrackingContent
@@ -50,6 +51,7 @@ fun WeekPage(
 
     if (timeEditSheetIsShown.value) {
         ModalBottomSheet(
+            modifier = Modifier.testTag("day-edition-bottom-sheet"),
             onDismissRequest = { timeEditSheetIsShown.value = false },
             sheetState = modalBottomSheetState,
             dragHandle = { BottomSheetDefaults.DragHandle() },

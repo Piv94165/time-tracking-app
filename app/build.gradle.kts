@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.time_tracking_app.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -70,40 +70,46 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    ////Room database
     val roomVersion = "2.6.1"
-
     implementation("androidx.room:room-runtime:$roomVersion")
     // annotationProcessor("androidx.room:room-compiler:$roomVersion")
     // annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 
+    ////Navigation
     val nav_version = "2.7.7"
-
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
-    // Hilt
+    //// Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.google.dagger.hilt.android)
     ksp(libs.google.dagger.hilt.compiler)
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     kspAndroidTest(libs.google.dagger.hilt.android.testing)
 
-    // Retrofit
+    //// Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // Retrofit with Scalar Converter
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-    // Moshi
+
+    //// Moshi
     implementation(libs.squareup.retrofit2.converter.moshi)
     implementation(libs.squareup.moshi)
     implementation(libs.squareup.moshi.kotlin)
     implementation(libs.squareup.moshi.adapters)
     ksp(libs.squareup.moshi.kotlin.codegen)
-    //Roboelectric - test ui
+
+    ////Roboelectric - test ui
     testImplementation(libs.robolectric)
     testImplementation(libs.cash.turbine)
+    // Test rules and transitive dependencies:
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    // Needed for createComposeRule(), but not for createAndroidComposeRule<YourActivity>():
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    //Widget
+    ////Widget
     // For AppWidgets support
     implementation( "androidx.glance:glance-appwidget:1.0.0" )
     // For interop APIs with Material 2
