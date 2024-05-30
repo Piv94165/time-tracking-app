@@ -81,6 +81,7 @@ class WeekPageViewModel @Inject constructor(
     }
 
     fun loadNextWeek() {
+        println("hello from loadNextWeek selectedWeek = ${selectedWeek.value}")
         if (rawSelectedWeek < 52) {
             rawSelectedWeek += 1
         } else {
@@ -88,7 +89,18 @@ class WeekPageViewModel @Inject constructor(
             rawSelectedYear += 1
         }
         _selectedWeek.value = rawSelectedWeek
+        println("hello from loadNextWeek 2 selectedWeek = ${selectedWeek.value}")
     }
 
     fun providesConvertors() = convertors
+
+    fun updateSelectedWeekForTestUI(week: Int, year: Int) {
+        if (week < 52 && week >0) {
+            _selectedWeek.value = week
+            rawSelectedWeek = week
+            rawSelectedYear = year
+            _selectedYear.value = year
+            allDaysForWeek()
+        }
+    }
 }

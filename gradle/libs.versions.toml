@@ -18,6 +18,7 @@ retrofit_version = "2.9.0"
 robolectric_version = "4.11.1"
 coreKtxVersion = "1.5.0"
 turbine_version = "1.0.0"
+uiTestJunit4Android = "1.6.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,7 @@ squareup-retrofit2-converter-moshi = { group = "com.squareup.retrofit2", name = 
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric_version" }
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine_version" }
+androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 
 
 [plugins]
