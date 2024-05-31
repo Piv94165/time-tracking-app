@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "time-tracking-app"
 include(":app")
- 
+include(":wearApp")
+include(":mylibrary")
+include(":dataSource")

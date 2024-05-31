@@ -19,6 +19,16 @@ robolectric_version = "4.11.1"
 coreKtxVersion = "1.5.0"
 turbine_version = "1.0.0"
 uiTestJunit4Android = "1.6.7"
+playServicesWearable = "18.0.0"
+composeMaterial = "1.2.1"
+composeFoundation = "1.2.1"
+coreSplashscreen = "1.0.1"
+composeUiTooling = "1.3.1"
+testExtJunit = "1.1.3"
+expressoCore = "3.4.0"
+uiTestJunit4 = "1.0.3"
+appcompat = "1.6.1"
+material = "1.10.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,9 +58,20 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine_version" }
 androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
+play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "playServicesWearable" }
+androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
+androidx-compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeFoundation" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-wear-compose = {group = "androidx.wear.compose", name = "compose-ui-tooling", version.ref = "composeUiTooling"}
+androidx-test-ext = {group = "androidx.test.ext", name = "junit", version.ref = "testExtJunit"}
+androidx-test-expresso = {group = "androidx.test.expresso", name = "espresso-core:3.4.0", version.ref = "expressoCore"}
+androidx-compose-ui = {group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4"}
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
