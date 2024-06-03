@@ -6,9 +6,7 @@ import android.os.Build
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import app.cash.turbine.test
-import com.example.time_tracking_app.database.AppDatabase
-import com.example.time_tracking_app.database.DayDao
-import com.example.time_tracking_app.database.DayEntity
+import com.example.datasource.database.AppDatabase
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before

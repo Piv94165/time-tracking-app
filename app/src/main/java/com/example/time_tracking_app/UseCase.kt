@@ -2,16 +2,16 @@ package com.example.time_tracking_app
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.time_tracking_app.database.Converters
-import com.example.time_tracking_app.database.DayEntity
-import com.example.time_tracking_app.database.PublicHolidayEntity
+import com.example.datasource.database.Converters
+import com.example.datasource.database.DayEntity
+import com.example.datasource.database.PublicHolidayEntity
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
 import java.time.Duration
 
 class UseCase @Inject constructor(
-    private val repository: DayRepository,
+    private val repository: com.example.repository.DayRepository,
 ) {
     private val converters = Converters()
 

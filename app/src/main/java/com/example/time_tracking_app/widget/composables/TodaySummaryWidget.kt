@@ -15,9 +15,8 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
-import androidx.room.util.TableInfo
+import com.example.datasource.database.DayEntity
 import com.example.time_tracking_app.R
-import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.utils.Convertors
 
 @RequiresApi(Build.VERSION_CODES.O)

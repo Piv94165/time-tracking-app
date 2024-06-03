@@ -9,26 +9,32 @@ package com.example.wearapp.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.runtime.collectAsState
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
-import com.example.wearapp.R
 
+import com.example.wearapp.R
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -41,6 +47,10 @@ class MainActivity : ComponentActivity() {
             val isClicked = remember {
                 mutableStateOf(false)
             }
+
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+
+            val day = viewModel.day.collectAsState(initial = null)
 
             ScalingLazyColumn(
                 modifier = Modifier
@@ -58,7 +68,7 @@ class MainActivity : ComponentActivity() {
                             verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
-                            Text(text = "Bonjour !")
+                            Text(text = "Bonjour ${day.value?.date}!")
                             Button(
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
                                 onClick = { isClicked.value = !isClicked.value }
@@ -78,34 +88,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//@Composable
-//fun WearApp(greetingName: String) {
-//    TimetrackingappTheme {
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(MaterialTheme.colors.background),
-//            contentAlignment = Alignment.Center
-//        ) {
-//            TimeText()
-//            Greeting(greetingName = greetingName)
-//        }
-//    }
-//}
-//
-//@Composable
-//fun Greeting(greetingName: String) {
-//    Text(
-//        modifier = Modifier.fillMaxWidth(),
-//        textAlign = TextAlign.Center,
-//        color = MaterialTheme.colors.primary,
-//        text = stringResource(R.string.hello_world, greetingName)
-//    )
-//}
-//
-//@Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
-//@Composable
-//fun DefaultPreview() {
-//    WearApp("Preview Android")
-//}

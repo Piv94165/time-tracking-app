@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -67,4 +69,26 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.play.services.wearable)
+
+    implementation(project(":repository"))
+
+    implementation(project(":database"))
+
+    // modules
+    implementation(project(":webService"))
+    //// Moshi
+    implementation(libs.squareup.retrofit2.converter.moshi)
+    implementation(libs.squareup.moshi)
+    implementation(libs.squareup.moshi.kotlin)
+    implementation(libs.squareup.moshi.adapters)
+    ksp(libs.squareup.moshi.kotlin.codegen)
+
+    //// Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.google.dagger.hilt.android)
+    ksp(libs.google.dagger.hilt.compiler)
+    androidTestImplementation(libs.google.dagger.hilt.android.testing)
+    kspAndroidTest(libs.google.dagger.hilt.android.testing)
 }

@@ -5,16 +5,18 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.time_tracking_app.database.DayEntity
+import com.example.datasource.database.DayEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val useCase: UseCase,
+    private val sendDayUseCase: SendDayToWearUsecase,
 ) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -48,6 +50,16 @@ class MainActivityViewModel @Inject constructor(
             catch (e: Exception) {
                 Log.d("ERROR",e.message.orEmpty())
             }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendToday() {
+        viewModelScope.launch {
+            useCase.getDayByDate(LocalDate.now()).collect {
+                sendDayUseCase.sendDay(it)
+
+            }
+        }
     }
 
 }

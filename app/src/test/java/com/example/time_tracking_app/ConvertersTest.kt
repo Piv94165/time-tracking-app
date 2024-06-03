@@ -1,6 +1,5 @@
 package com.example.time_tracking_app
 
-import com.example.time_tracking_app.database.Converters
 import com.example.time_tracking_app.utils.Convertors
 import org.junit.Assert
 import org.junit.Test

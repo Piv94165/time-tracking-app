@@ -2,10 +2,6 @@ package com.example.time_tracking_app.widget
 
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidgetManager
-import androidx.room.Room
-import com.example.time_tracking_app.DayRepository
-import com.example.time_tracking_app.database.AppDatabase
-import com.example.time_tracking_app.network.PublicHolidaysService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

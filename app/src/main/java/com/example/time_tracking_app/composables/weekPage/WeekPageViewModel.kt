@@ -2,18 +2,16 @@ package com.example.time_tracking_app.composables.weekPage
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.datasource.database.DayEntity
 import com.example.time_tracking_app.UseCase
-import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.utils.Convertors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.time.Duration
 import java.time.LocalDate
 import java.time.temporal.WeekFields
 import java.util.Locale

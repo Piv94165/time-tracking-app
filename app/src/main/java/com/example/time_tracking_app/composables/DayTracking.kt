@@ -27,9 +27,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.semantics
+import com.example.datasource.database.DayEntity
 import com.example.time_tracking_app.R
 import com.example.time_tracking_app.utils.Convertors
-import com.example.time_tracking_app.database.DayEntity
 import java.time.LocalDate
 import java.time.LocalTime
 

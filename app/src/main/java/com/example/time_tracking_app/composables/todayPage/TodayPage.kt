@@ -4,8 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.time_tracking_app.composables.weekPage.WeekPage
-import com.example.time_tracking_app.database.DayEntity
+import com.example.datasource.database.DayEntity
 import com.example.time_tracking_app.utils.Convertors
 import java.time.LocalDate
 import java.time.LocalTime

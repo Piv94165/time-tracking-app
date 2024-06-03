@@ -2,7 +2,6 @@ package com.example.time_tracking_app.composables
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -23,10 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.datasource.database.DayEntity
 import com.example.time_tracking_app.R
 import com.example.time_tracking_app.composables.weekPage.TimePickerDialog
 import com.example.time_tracking_app.utils.Convertors
-import com.example.time_tracking_app.database.DayEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

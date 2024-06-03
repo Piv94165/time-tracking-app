@@ -60,7 +60,6 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
     implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -69,17 +68,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(project(":database"))
 
-    //Datasource module
-    implementation(project(":dataSource"))
-
-    ////Room database
-    val roomVersion = "2.6.1"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    // annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    // annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
+    // modules
+    implementation(project(":webService"))
+    implementation(project(":repository"))
 
     ////Navigation
     val nav_version = "2.7.7"
@@ -97,12 +90,6 @@ dependencies {
     // Retrofit with Scalar Converter
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 
-    //// Moshi
-    implementation(libs.squareup.retrofit2.converter.moshi)
-    implementation(libs.squareup.moshi)
-    implementation(libs.squareup.moshi.kotlin)
-    implementation(libs.squareup.moshi.adapters)
-    ksp(libs.squareup.moshi.kotlin.codegen)
 
     ////Roboelectric - test ui
     testImplementation(libs.robolectric)
@@ -119,6 +106,16 @@ dependencies {
     implementation( "androidx.glance:glance-material:1.0.0" )
     // For interop APIs with Material 3
     implementation( "androidx.glance:glance-material3:1.0.0" )
+
+    //wear os
+    implementation(libs.play.services.wearable)
+
+    //// Moshi
+    implementation(libs.squareup.retrofit2.converter.moshi)
+    implementation(libs.squareup.moshi)
+    implementation(libs.squareup.moshi.kotlin)
+    implementation(libs.squareup.moshi.adapters)
+    ksp(libs.squareup.moshi.kotlin.codegen)
 
 }
 

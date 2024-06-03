@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.datasource.database.DayEntity
 import com.example.time_tracking_app.R
-import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.utils.Convertors
 
 @RequiresApi(Build.VERSION_CODES.O)

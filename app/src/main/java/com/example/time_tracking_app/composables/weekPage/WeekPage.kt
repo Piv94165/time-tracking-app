@@ -21,9 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.datasource.database.DayEntity
 import com.example.time_tracking_app.composables.DayTrackingContent
 import com.example.time_tracking_app.composables.EditDay
-import com.example.time_tracking_app.database.DayEntity
 import com.example.time_tracking_app.composables.weekPage.topNavigation.TopNavBar
 import com.example.time_tracking_app.utils.Convertors
 import java.time.LocalDate

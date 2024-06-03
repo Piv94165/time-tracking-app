@@ -1,6 +1,5 @@
 package com.example.time_tracking_app
 
-import com.example.time_tracking_app.database.DayEntity
 import org.junit.Assert
 import org.junit.Test
 import java.time.LocalDate

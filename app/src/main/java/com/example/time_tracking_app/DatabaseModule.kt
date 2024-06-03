@@ -2,7 +2,7 @@ package com.example.time_tracking_app
 
 import android.content.Context
 import androidx.room.Room
-import com.example.time_tracking_app.database.AppDatabase
+import com.example.datasource.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
