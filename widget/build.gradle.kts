@@ -32,6 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
 }
 
 dependencies {
@@ -39,7 +45,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(project(":app"))
+    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,6 +68,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
 
     implementation(project(":database"))
+    implementation(project(":repository"))
 
     //wear os
     implementation(libs.play.services.wearable)
@@ -72,4 +79,14 @@ dependencies {
     implementation(libs.squareup.moshi.kotlin)
     implementation(libs.squareup.moshi.adapters)
     ksp(libs.squareup.moshi.kotlin.codegen)
+
+    ////Widget
+    // For AppWidgets support
+    implementation( "androidx.glance:glance-appwidget:1.0.0" )
+    // For interop APIs with Material 2
+    implementation( "androidx.glance:glance-material:1.0.0" )
+    // For interop APIs with Material 3
+    implementation( "androidx.glance:glance-material3:1.0.0" )
+
+    testImplementation(libs.robolectric)
 }

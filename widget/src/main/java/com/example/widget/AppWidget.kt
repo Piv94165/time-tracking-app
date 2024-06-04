@@ -1,4 +1,4 @@
-package com.example.time_tracking_app.widget
+package com.example.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,12 +22,10 @@ import androidx.glance.layout.Alignment
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import com.example.datasource.database.DayEntity
-import com.example.time_tracking_app.UseCase
 import com.example.time_tracking_app.database.DayDao
-import com.example.time_tracking_app.utils.Convertors
-import com.example.time_tracking_app.widget.composables.EndMyDayWidget
-import com.example.time_tracking_app.widget.composables.StartMyDayWidget
-import com.example.time_tracking_app.widget.composables.TodaySummaryWidget
+import com.example.widget.composables.EndMyDayWidget
+import com.example.widget.composables.StartMyDayWidget
+import com.example.widget.composables.TodaySummaryWidget
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate

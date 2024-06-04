@@ -68,11 +68,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.material3)
     implementation(project(":database"))
 
     // modules
     implementation(project(":webService"))
     implementation(project(":repository"))
+    implementation(project(":widget"))
 
     ////Navigation
     val nav_version = "2.7.7"

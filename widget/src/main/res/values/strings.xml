@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">time-tracking-app</string>
+    <string name="example_appwidget_description">test description</string>
+    <string name="start_new_day">Commencer ma journée</string>
+    <string name="start_day_welcome_text">Bonjour, aujourd\'hui est un nouveau jour !</string>
+    <string name="end_my_day">Terminer ma journée</string>
+    <string name="day_summary_title">Résumé de ma journée</string>
+    <string name="start_day_hour">Heure d\'embauche : %s</string>
+    <string name="start_day_hour_label">Heure d\'embauche</string>
+    <string name="end_day_hour">Heure de débauche : %s</string>
+    <string name="end_day_hour_label">Heure de débauche</string>
+    <string name="validate_hours">Valider les horaires</string>
+    <string name="validate_hours_page_title">Horaires du %s</string>
+    <string name="working_hours">Temps de travail : %s</string>
+    <string name="day_duration">Durée : %s</string>
+    <string name="public_holiday">férié</string>
+    <string name="previous_week">Semaine d\'avant</string>
+    <string name="next_week">Semaine d\'après</string>
+    <string name="top_navigation_title">%1$s - Semaine %2$s : %3$s</string>
+    <string name="you_start_your_day">Vous avez commencé votre journée à %s</string>
+    <string name="end_of_day_message">C\'est le moment de se reposer !</string>
+    <string name="ok_button">OK</string>
+
+
+
+</resources>

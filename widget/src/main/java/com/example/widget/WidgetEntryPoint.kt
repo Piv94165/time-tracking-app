@@ -1,7 +1,6 @@
-package com.example.time_tracking_app.widget
+package com.example.widget
 
 import androidx.glance.appwidget.GlanceAppWidgetManager
-import com.example.time_tracking_app.UseCase
 import com.example.time_tracking_app.database.DayDao
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

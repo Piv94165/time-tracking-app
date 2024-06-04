@@ -1,4 +1,4 @@
-package com.example.time_tracking_app.widget.composables
+package com.example.widget.composables
 
 import android.content.Context
 import android.os.Build
@@ -16,8 +16,8 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import com.example.datasource.database.DayEntity
-import com.example.time_tracking_app.R
-import com.example.time_tracking_app.utils.Convertors
+import com.example.widget.Convertors
+import com.example.widget.R
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -35,7 +35,8 @@ fun TodaySummaryWidget(
         verticalAlignment = Alignment.CenterVertically,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = context.applicationContext.resources.getString(R.string.start_day_hour,
+        Text(text = context.applicationContext.resources.getString(
+            R.string.start_day_hour,
             day.startTime?.let { convertors.convertTimeToString(it) }))
         Text(text = context.applicationContext.resources.getString(R.string.end_day_hour,
             day.endTime?.let { convertors.convertTimeToString(it) }))
